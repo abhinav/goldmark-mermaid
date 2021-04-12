@@ -1,0 +1,52 @@
+1
+//- - - - - - - - -//
+Transforms mermaid blocks.
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+//- - - - - - - - -//
+<p>Transforms mermaid blocks.</p>
+<div class="mermaid">graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+//= = = = = = = = = = = = = = = = = = = = = = = =//
+2
+//- - - - - - - - -//
+Leaves unmarked blocks alone.
+
+```
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+//- - - - - - - - -//
+<p>Leaves unmarked blocks alone.</p>
+<pre><code>graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</code></pre>
+//= = = = = = = = = = = = = = = = = = = = = = = =//
+2
+//- - - - - - - - -//
+Does not change other languages.
+
+```javascript
+console.log("hello")
+```
+//- - - - - - - - -//
+<p>Does not change other languages.</p>
+<pre><code class="language-javascript">console.log(&quot;hello&quot;)
+</code></pre>
+//= = = = = = = = = = = = = = = = = = = = = = = =//
