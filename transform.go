@@ -21,10 +21,16 @@ var _mermaid = []byte("mermaid")
 // Transform transforms the provided Markdown AST.
 func (*Transformer) Transform(doc *ast.Document, reader text.Reader, pctx parser.Context) {
 	var (
-		used      bool
-		hasScript bool
+		hasScript     bool
+		mermaidBlocks []*ast.FencedCodeBlock
 	)
+
+	// Collect all blocks to be replaced without modifying the tree.
 	ast.Walk(doc, func(node ast.Node, enter bool) (ast.WalkStatus, error) {
+		if !enter {
+			return ast.WalkContinue, nil
+		}
+
 		// For multiple transforms.
 		if _, ok := node.(*ScriptBlock); ok {
 			hasScript = true
@@ -41,7 +47,16 @@ func (*Transformer) Transform(doc *ast.Document, reader text.Reader, pctx parser
 			return ast.WalkContinue, nil
 		}
 
-		used = true
+		mermaidBlocks = append(mermaidBlocks, cb)
+		return ast.WalkContinue, nil
+	})
+
+	// Nothing to do.
+	if len(mermaidBlocks) == 0 {
+		return
+	}
+
+	for _, cb := range mermaidBlocks {
 		b := new(Block)
 		b.SetLines(cb.Lines())
 
@@ -49,13 +64,9 @@ func (*Transformer) Transform(doc *ast.Document, reader text.Reader, pctx parser
 		if parent != nil {
 			parent.ReplaceChild(parent, cb, b)
 		}
-
-		return ast.WalkSkipChildren, nil
-	})
-
-	if !used || hasScript {
-		return
 	}
 
-	doc.AppendChild(doc, &ScriptBlock{})
+	if !hasScript {
+		doc.AppendChild(doc, &ScriptBlock{})
+	}
 }
