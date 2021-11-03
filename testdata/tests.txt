@@ -38,7 +38,7 @@ graph TD;
     C--&gt;D;
 </code></pre>
 //= = = = = = = = = = = = = = = = = = = = = = = =//
-2
+3
 //- - - - - - - - -//
 Does not change other languages.
 
@@ -50,3 +50,35 @@ console.log("hello")
 <pre><code class="language-javascript">console.log(&quot;hello&quot;)
 </code></pre>
 //= = = = = = = = = = = = = = = = = = = = = = = =//
+4
+//- - - - - - - - -//
+Supports multiple Mermaid blocks. (#3)
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+//- - - - - - - - -//
+<p>Supports multiple Mermaid blocks. (#3)</p>
+<div class="mermaid">graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</div><div class="mermaid">graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
