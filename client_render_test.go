@@ -46,11 +46,7 @@ func TestRenderer_Block(t *testing.T) {
 		t.Run(tt.desc, func(t *testing.T) {
 			t.Parallel()
 
-			r := renderer.NewRenderer(
-				renderer.WithNodeRenderers(
-					util.Prioritized(&ClientRenderer{}, 100),
-				),
-			)
+			r := buildNodeRenderer(new(ClientRenderer))
 
 			reader := text.NewReader([]byte(tt.give))
 			give := blockFromReader(reader)
@@ -86,13 +82,9 @@ func TestRenderer_Script(t *testing.T) {
 		t.Run(tt.desc, func(t *testing.T) {
 			t.Parallel()
 
-			r := renderer.NewRenderer(
-				renderer.WithNodeRenderers(
-					util.Prioritized(&ClientRenderer{
-						MermaidJS: tt.mermaidJS,
-					}, 100),
-				),
-			)
+			r := buildNodeRenderer(&ClientRenderer{
+				MermaidJS: tt.mermaidJS,
+			})
 
 			var buff bytes.Buffer
 			assert.NoError(t,
@@ -100,4 +92,12 @@ func TestRenderer_Script(t *testing.T) {
 			assert.Equal(t, tt.want, buff.String())
 		})
 	}
+}
+
+func buildNodeRenderer(r renderer.NodeRenderer) renderer.Renderer {
+	return renderer.NewRenderer(
+		renderer.WithNodeRenderers(
+			util.Prioritized(r, 100),
+		),
+	)
 }
