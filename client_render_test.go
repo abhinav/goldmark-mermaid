@@ -49,7 +49,7 @@ func TestRenderer_Block(t *testing.T) {
 
 			r := renderer.NewRenderer(
 				renderer.WithNodeRenderers(
-					util.Prioritized(&Renderer{}, 100),
+					util.Prioritized(&ClientRenderer{}, 100),
 				),
 			)
 
@@ -102,7 +102,7 @@ func TestRenderer_Script(t *testing.T) {
 
 			r := renderer.NewRenderer(
 				renderer.WithNodeRenderers(
-					util.Prioritized(&Renderer{
+					util.Prioritized(&ClientRenderer{
 						MermaidJS: tt.mermaidJS,
 					}, 100),
 				),

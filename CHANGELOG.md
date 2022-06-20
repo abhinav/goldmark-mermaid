@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Use this if the page you're rendering into already includes the tag
   elsewhere.
 
+### Changed
+
+- Deprecate Renderer in favor of ClientRenderer.
+  Rendere has been aliased to the new type
+  so existing code should continue to work unchanged.
+
 ## [0.1.1] - 2021-11-03
 
 ### Fixed

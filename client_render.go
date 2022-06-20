@@ -10,9 +10,17 @@ import (
 
 const _defaultMermaidJS = "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
 
-// Renderer renders Mermaid diagrams as HTML, to be rendered into images
-// client side.
-type Renderer struct {
+// Renderer is the client-side renderer for Mermaid diagrams.
+//
+// Deprecated: Use ClientRenderer.
+type Renderer = ClientRenderer
+
+// ClientRenderer renders Mermaid diagrams as HTML,
+// to be rendered into images client side.
+//
+// It operates by installing a <script> tag into the document
+// that renders the Mermaid diagrams client-side.
+type ClientRenderer struct {
 	// URL of Mermaid Javascript to be included in the page.
 	//
 	// Defaults to the latest version available on cdn.jsdelivr.net.
@@ -21,13 +29,13 @@ type Renderer struct {
 
 // RegisterFuncs registers the renderer for Mermaid blocks with the provided
 // Goldmark Registerer.
-func (r *Renderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
+func (r *ClientRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
 	reg.Register(Kind, r.Render)
 	reg.Register(ScriptKind, r.RenderScript)
 }
 
 // Render renders mermaid.Block nodes.
-func (*Renderer) Render(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (*ClientRenderer) Render(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*Block)
 	if entering {
 		w.WriteString(`<div class="mermaid">`)
@@ -43,7 +51,7 @@ func (*Renderer) Render(w util.BufWriter, src []byte, node ast.Node, entering bo
 }
 
 // RenderScript renders mermaid.ScriptBlock nodes.
-func (r *Renderer) RenderScript(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *ClientRenderer) RenderScript(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	mermaidJS := r.MermaidJS
 	if len(mermaidJS) == 0 {
 		mermaidJS = _defaultMermaidJS
