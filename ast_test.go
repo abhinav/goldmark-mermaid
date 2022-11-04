@@ -1,7 +1,6 @@
 package mermaid
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -43,7 +42,7 @@ func TestBlock(t *testing.T) {
 		b.Dump(src, 0)
 		require.NoError(t, closeStdout())
 
-		got, err := ioutil.ReadFile(stdout)
+		got, err := os.ReadFile(stdout)
 		require.NoError(t, err)
 		require.Equal(t, unlines(
 			"MermaidBlock {",
@@ -67,7 +66,7 @@ func TestScript(t *testing.T) {
 		sb.Dump(nil /* src */, 0)
 		require.NoError(t, closeStdout())
 
-		got, err := ioutil.ReadFile(stdout)
+		got, err := os.ReadFile(stdout)
 		require.NoError(t, err)
 		require.Equal(t, unlines(
 			"MermaidScriptBlock {",
