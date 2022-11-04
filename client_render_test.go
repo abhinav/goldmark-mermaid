@@ -1,7 +1,6 @@
 package mermaid
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"testing"
@@ -57,9 +56,7 @@ func TestRenderer_Block(t *testing.T) {
 			give := blockFromReader(reader)
 
 			var buff bytes.Buffer
-			w := bufio.NewWriter(&buff)
-
-			assert.NoError(t, r.Render(w, reader.Source(), give), "Render")
+			assert.NoError(t, r.Render(&buff, reader.Source(), give), "Render")
 			assert.Equal(t, tt.want, buff.String())
 		})
 	}
@@ -98,10 +95,8 @@ func TestRenderer_Script(t *testing.T) {
 			)
 
 			var buff bytes.Buffer
-			w := bufio.NewWriter(&buff)
-
 			assert.NoError(t,
-				r.Render(w, nil /* src */, &ScriptBlock{}))
+				r.Render(&buff, nil /* src */, &ScriptBlock{}))
 			assert.Equal(t, tt.want, buff.String())
 		})
 	}
