@@ -18,6 +18,7 @@ func TestTransformer(t *testing.T) {
 	tests := []struct {
 		desc       string
 		give       string
+		noScript   bool
 		wantBodies []string
 		wantScript bool
 	}{
@@ -55,6 +56,16 @@ func TestTransformer(t *testing.T) {
 			wantBodies: []string{"foo\n"},
 			wantScript: true,
 		},
+		{
+			desc:     "noscript",
+			noScript: true,
+			give: unlines(
+				"```mermaid",
+				"foo",
+				"```",
+			),
+			wantBodies: []string{"foo\n"},
+		},
 	}
 
 	for _, tt := range tests {
@@ -65,7 +76,9 @@ func TestTransformer(t *testing.T) {
 			p := goldmark.New().Parser()
 			p.AddOptions(
 				parser.WithASTTransformers(
-					util.Prioritized(&Transformer{}, 100),
+					util.Prioritized(&Transformer{
+						NoScript: tt.noScript,
+					}, 100),
 				),
 			)
 
