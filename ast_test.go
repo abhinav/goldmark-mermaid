@@ -76,3 +76,19 @@ func TestScript(t *testing.T) {
 		), string(got))
 	})
 }
+
+func blockFromReader(reader text.Reader) *Block {
+	segs := text.NewSegments()
+	for {
+		line, seg := reader.PeekLine()
+		if line == nil {
+			break
+		}
+
+		segs.Append(seg)
+		reader.AdvanceLine()
+	}
+	blk := new(Block)
+	blk.SetLines(segs)
+	return blk
+}
