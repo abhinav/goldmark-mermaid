@@ -1,0 +1,140 @@
+- desc: single block
+  give: |
+    Transforms mermaid blocks.
+
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+  want: |
+    <p>Transforms mermaid blocks.</p>
+    <div class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+
+- desc: noscript/single block
+  noscript: true
+  give: |
+    Single mermaid block.
+
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+  want: |
+    <p>Single mermaid block.</p>
+    <div class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </div>
+
+- desc: unmarked block
+  give: |
+    Leaves unmarked blocks alone.
+
+    ```
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+  want: |
+    <p>Leaves unmarked blocks alone.</p>
+    <pre><code>graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </code></pre>
+
+- desc: ignore others
+  give: |
+    Does not change other languages.
+
+    ```javascript
+    console.log("hello")
+    ```
+  want: |
+    <p>Does not change other languages.</p>
+    <pre><code class="language-javascript">console.log(&quot;hello&quot;)
+    </code></pre>
+
+- desc: multiple blocks
+  give: |
+    Supports multiple Mermaid blocks. (#3)
+
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+  want: |
+    <p>Supports multiple Mermaid blocks. (#3)</p>
+    <div class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </div><div class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+
+
+- desc: noscript/multiple blocks
+  noscript: true
+  give: |
+    Supports multiple Mermaid blocks. (#3)
+
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+  want: |
+    <p>Supports multiple Mermaid blocks. (#3)</p>
+    <div class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </div><div class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </div>
