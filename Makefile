@@ -1,12 +1,14 @@
 # "go install"-ed binaries will be placed here during development.
 export GOBIN ?= $(shell pwd)/bin
+export PATH := $(GOBIN):$(PATH)
 
 GO_FILES = $(shell find . \
 	   -path '*/.*' -prune -o \
 	   '(' -type f -a -name '*.go' ')' -print)
 
-GOLINT = $(GOBIN)/golint
-STATICCHECK = $(GOBIN)/staticcheck
+GOLINT = bin/golint
+STATICCHECK = bin/staticcheck
+
 TOOLS = $(GOLINT) $(STATICCHECK)
 
 .PHONY: all
@@ -15,6 +17,9 @@ all: build lint test
 .PHONY: build
 build:
 	go build ./...
+
+.PHONY: tools
+tools: $(TOOLS)
 
 .PHONY: test
 test:
@@ -38,13 +43,11 @@ gofmt:
 
 .PHONY: golint
 golint: $(GOLINT)
-	$(GOLINT) ./...
+	golint ./...
 
 .PHONY: staticcheck
 staticcheck: $(STATICCHECK)
-	$(STATICCHECK) ./...
-
-tools: $(GOLINT) $(STATICCHECK)
+	staticcheck ./...
 
 $(GOLINT): tools/go.mod
 	cd tools && go install golang.org/x/lint/golint
