@@ -11,13 +11,13 @@ import (
 //
 // Use it by installing it to the goldmark.Markdown object upon creation.
 //
-//   goldmark.New(
-//     // ...
-//     goldmark.WithExtensions(
-//       // ...
-//       &mermaid.Exender{},
-//     ),
-//   )
+//	goldmark.New(
+//	  // ...
+//	  goldmark.WithExtensions(
+//	    // ...
+//	    &mermaid.Exender{},
+//	  ),
+//	)
 type Extender struct {
 	// URL of Mermaid Javascript to be included in the page.
 	//

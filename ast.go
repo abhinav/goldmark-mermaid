@@ -7,13 +7,13 @@ var Kind = ast.NewNodeKind("MermaidBlock")
 
 // Block is a Mermaid block.
 //
-//  ```mermaid
-//  graph TD;
-//      A-->B;
-//      A-->C;
-//      B-->D;
-//      C-->D;
-//  ```
+//	```mermaid
+//	graph TD;
+//	    A-->B;
+//	    A-->C;
+//	    B-->D;
+//	    C-->D;
+//	```
 //
 // Its raw contents are the plain text of the Mermaid diagram.
 type Block struct {
