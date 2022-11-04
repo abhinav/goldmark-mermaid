@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- ServerRenderer with support for rendering Mermaid diagrams
+  into inline SVGs server-side.
+  This is picked automatically if an 'mmdc' executable is found on PATH.
 - Support opting out of the MermaidJS `<script>` tag.
   To use, set `Extender.NoScript` or `Transformer.NoScript` to true.
   Use this if the page you're rendering into already includes the tag

@@ -8,8 +8,9 @@ GO_FILES = $(shell find . \
 
 GOLINT = bin/golint
 STATICCHECK = bin/staticcheck
+STRINGER = bin/stringer
 
-TOOLS = $(GOLINT) $(STATICCHECK)
+TOOLS = $(GOLINT) $(STATICCHECK) $(STRINGER)
 
 .PHONY: all
 all: build lint test
@@ -25,13 +26,17 @@ tools: $(TOOLS)
 test:
 	go test -v -race ./...
 
+.PHONY: generate
+generate: tools
+	go generate -x ./...
+
 .PHONY: cover
 cover:
 	go test -race -coverprofile=cover.out -coverpkg=./... ./...
 	go tool cover -html=cover.out -o cover.html
 
 .PHONY: lint
-lint: gofmt golint staticcheck
+lint: gofmt golint staticcheck check-generate
 
 .PHONY: gofmt
 gofmt:
@@ -49,8 +54,20 @@ golint: $(GOLINT)
 staticcheck: $(STATICCHECK)
 	staticcheck ./...
 
+.PHONY: check-generate
+check-generate: generate
+	@DIFF=$$(git diff --name-only); \
+	if [ -n "$$DIFF" ]; then \
+		echo "--- The following files are dirty:"; \
+		echo "$$DIFF"; \
+		exit 1; \
+	fi
+
 $(GOLINT): tools/go.mod
 	cd tools && go install golang.org/x/lint/golint
 
 $(STATICCHECK): tools/go.mod
 	cd tools && go install honnef.co/go/tools/cmd/staticcheck
+
+$(STRINGER): tools/go.mod
+	cd tools && go install golang.org/x/tools/cmd/stringer

@@ -27,8 +27,17 @@ jobs:
         go-version: ${{ matrix.go }}
         cache: true
 
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        cache: 'yarn'
+        cache-dependency-path: yarn.lock
+
     - name: Download dependencies
-      run: go mod download
+      run: |
+        go mod download
+        yarn install
 
     - name: Build
       run: make build
