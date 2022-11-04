@@ -11,8 +11,8 @@ import (
 // Transformer transforms a Goldmark Markdown AST with support for Mermaid
 // diagrams. It makes the following transformations:
 //
-//  - replace mermaid code blocks with mermaid.Block nodes
-//  - add a mermaid.ScriptBlock node if the document uses Mermaid
+//   - replace mermaid code blocks with mermaid.Block nodes
+//   - add a mermaid.ScriptBlock node if the document uses Mermaid
 type Transformer struct {
 }
 
