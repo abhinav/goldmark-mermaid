@@ -20,9 +20,17 @@ import (
 //	)
 type Extender struct {
 	// URL of Mermaid Javascript to be included in the page.
+	// Ignored if NoScript is true.
 	//
 	// Defaults to the latest version available on cdn.jsdelivr.net.
 	MermaidJS string
+
+	// If true, don't add a <script> including Mermaid to the end of the
+	// page.
+	//
+	// Use this if the page you're including goldmark-mermaid in
+	// already has a MermaidJS script included elsewhere.
+	NoScript bool
 }
 
 // Extend extends the provided Goldmark parser with support for Mermaid
@@ -30,7 +38,9 @@ type Extender struct {
 func (e *Extender) Extend(md goldmark.Markdown) {
 	md.Parser().AddOptions(
 		parser.WithASTTransformers(
-			util.Prioritized(&Transformer{}, 100),
+			util.Prioritized(&Transformer{
+				NoScript: e.NoScript,
+			}, 100),
 		),
 	)
 	md.Renderer().AddOptions(

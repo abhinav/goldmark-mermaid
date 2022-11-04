@@ -18,4 +18,14 @@ func TestIntegration(t *testing.T) {
 		"testdata/tests.txt",
 		t,
 	)
+
+	t.Run("noscript", func(t *testing.T) {
+		testutil.DoTestCaseFile(
+			goldmark.New(goldmark.WithExtensions(&mermaid.Extender{
+				NoScript: true,
+			})),
+			"testdata/tests_noscript.txt",
+			t,
+		)
+	})
 }
