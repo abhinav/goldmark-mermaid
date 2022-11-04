@@ -54,18 +54,7 @@ func TestRenderer_Block(t *testing.T) {
 			)
 
 			reader := text.NewReader([]byte(tt.give))
-			segs := text.NewSegments()
-			for {
-				line, seg := reader.PeekLine()
-				if line == nil {
-					break
-				}
-
-				segs.Append(seg)
-				reader.AdvanceLine()
-			}
-			give := new(Block)
-			give.SetLines(segs)
+			give := blockFromReader(reader)
 
 			var buff bytes.Buffer
 			w := bufio.NewWriter(&buff)
