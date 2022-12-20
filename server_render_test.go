@@ -9,10 +9,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/abhinav/goldmark-mermaid/internal/exectest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/yuin/goldmark/text"
+	"go.abhg.dev/goldmark/mermaid/internal/exectest"
 )
 
 func TestServerRenderer_Simple(t *testing.T) {

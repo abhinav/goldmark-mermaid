@@ -1,4 +1,4 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/abhinav/goldmark-mermaid.svg)](https://pkg.go.dev/github.com/abhinav/goldmark-mermaid)
+[![Go Reference](https://pkg.go.dev/badge/go.abhg.dev/goldmark/mermaid.svg)](https://pkg.go.dev/go.abhg.dev/goldmark/mermaid)
 [![Go](https://github.com/abhinav/goldmark-mermaid/actions/workflows/go.yml/badge.svg)](https://github.com/abhinav/goldmark-mermaid/actions/workflows/go.yml)
 [![codecov](https://codecov.io/gh/abhinav/goldmark-mermaid/branch/main/graph/badge.svg?token=W98KYF8SPE)](https://codecov.io/gh/abhinav/goldmark-mermaid)
 
@@ -13,7 +13,7 @@ support for [Mermaid] diagrams.
 To use goldmark-mermaid, import the `mermaid` package.
 
 ```go
-import mermaid "github.com/abhinav/goldmark-mermaid"
+import "go.abhg.dev/goldmark/mermaid"
 ```
 
 Then include the `mermaid.Extender` in the list of extensions you build your

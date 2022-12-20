@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	mermaid "github.com/abhinav/goldmark-mermaid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/yuin/goldmark"
+	"go.abhg.dev/goldmark/mermaid"
 	"gopkg.in/yaml.v3"
 )
 

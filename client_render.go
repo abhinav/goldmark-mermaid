@@ -10,11 +10,6 @@ import (
 
 const _defaultMermaidJS = "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
 
-// Renderer is the client-side renderer for Mermaid diagrams.
-//
-// Deprecated: Use ClientRenderer.
-type Renderer = ClientRenderer
-
 // ClientRenderer renders Mermaid diagrams as HTML,
 // to be rendered into images client side.
 //
