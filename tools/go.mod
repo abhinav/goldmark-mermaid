@@ -1,4 +1,4 @@
-module github.com/abhinav/goldmark-mermaid/tools
+module go.abhg.dev/goldmark/mermaid/tools
 
 go 1.19
 
