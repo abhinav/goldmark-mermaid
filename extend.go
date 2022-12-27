@@ -13,16 +13,6 @@ import (
 // Extender adds support for Mermaid diagrams to a Goldmark Markdown parser.
 //
 // Use it by installing it to the goldmark.Markdown object upon creation.
-//
-//	goldmark.New(
-//		// ...
-//		goldmark.WithExtensions(
-//			// ...
-//			&mermaid.Exender{
-//				RenderMode: mermaid.ServerRenderMode,
-//			},
-//		),
-//	)
 type Extender struct {
 	// RenderMode specifies which renderer the Extender should install.
 	//
