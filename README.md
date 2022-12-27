@@ -23,7 +23,10 @@ Then include the `mermaid.Extender` in the list of extensions you build your
 
 ```go
 goldmark.New(
-  &mermaid.Extender{}
+  goldmark.WithExtensions(
+    // ...
+    &mermaid.Extender{},
+  ),
   // ...
 ).Convert(src, out)
 ```
@@ -56,9 +59,11 @@ You can pick between the two by setting `RenderMode` on `mermaid.Extender`.
 
 ```go
 goldmark.New(
-  &mermaid.Extender{
-    RenderMode: mermaid.RenderModeServer, // or RenderModeClient
-  }
+  goldmark.WithExtensions(
+    &mermaid.Extender{
+      RenderMode: mermaid.RenderModeServer, // or RenderModeClient
+    },
+  ),
   // ...
 ).Convert(src, out)
 ```
