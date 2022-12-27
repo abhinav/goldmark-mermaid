@@ -1,3 +1,5 @@
+# goldmark-mermaid
+
 [![Go Reference](https://pkg.go.dev/badge/go.abhg.dev/goldmark/mermaid.svg)](https://pkg.go.dev/go.abhg.dev/goldmark/mermaid)
 [![Go](https://github.com/abhinav/goldmark-mermaid/actions/workflows/go.yml/badge.svg)](https://github.com/abhinav/goldmark-mermaid/actions/workflows/go.yml)
 [![codecov](https://codecov.io/gh/abhinav/goldmark-mermaid/branch/main/graph/badge.svg?token=W98KYF8SPE)](https://codecov.io/gh/abhinav/goldmark-mermaid)
@@ -8,7 +10,13 @@ support for [Mermaid] diagrams.
   [goldmark]: http://github.com/yuin/goldmark
   [Mermaid]: https://mermaid-js.github.io/mermaid/
 
-# Usage
+## Installation
+
+```bash
+go get go.abhg.dev/goldmark/mermaid@latest
+```
+
+## Usage
 
 To use goldmark-mermaid, import the `mermaid` package.
 
@@ -43,7 +51,7 @@ The package supports Mermaid diagrams inside fenced code blocks with the languag
 
 When you render the Markdown as HTML, these will be rendered into diagrams.
 
-# Rendering diagrams
+## Rendering diagrams
 
 Mermaid diagrams can be rendered
 at the time the file is processed ("server-side")
