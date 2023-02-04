@@ -1,3 +1,6 @@
+// Package exectest provides a means of mocking [os/exec.Cmd]s
+// allowing injection of arbitrary behavior into an external executable
+// from a test.
 package exectest
 
 import (
