@@ -1,3 +1,4 @@
+// Deprecated: Use "go.abhg.dev/goldmark/mermaid" instead.
 module github.com/abhinav/goldmark-mermaid
 
 go 1.18
@@ -5,6 +6,7 @@ go 1.18
 require (
 	github.com/stretchr/testify v1.8.1
 	github.com/yuin/goldmark v1.3.4
+	go.abhg.dev/goldmark/mermaid v0.3.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
