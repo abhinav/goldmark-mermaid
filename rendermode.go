@@ -1,9 +1,9 @@
 package mermaid
 
-// RenderMode specifies which renderer the Extender should use.
-type RenderMode int
+import "go.abhg.dev/goldmark/mermaid"
 
-//go:generate stringer -type RenderMode -trimprefix RenderMode
+// RenderMode specifies which renderer the Extender should use.
+type RenderMode = mermaid.RenderMode
 
 const (
 	// RenderModeAuto picks the renderer
@@ -12,15 +12,15 @@ const (
 	// If the 'mmdc' CLI is available on $PATH,
 	// this will generate diagrams server-side.
 	// Otherwise, it'll generate them client-side.
-	RenderModeAuto RenderMode = iota
+	RenderModeAuto = mermaid.RenderModeAuto
 
 	// RenderModeClient renders Mermaid diagrams client-side
 	// by adding <script> tags.
-	RenderModeClient
+	RenderModeClient = mermaid.RenderModeClient
 
 	// RenderModeServer renders Mermaid diagrams server-side
 	// using the Mermaid CLI.
 	//
 	// Fails rendering if the Mermaid CLI is absent.
-	RenderModeServer
+	RenderModeServer = mermaid.RenderModeServer
 )

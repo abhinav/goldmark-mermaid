@@ -1,9 +1,9 @@
 package mermaid
 
-import "github.com/yuin/goldmark/ast"
+import "go.abhg.dev/goldmark/mermaid"
 
 // Kind is the kind of a Mermaid block.
-var Kind = ast.NewNodeKind("MermaidBlock")
+var Kind = mermaid.Kind
 
 // Block is a Mermaid block.
 //
@@ -16,38 +16,12 @@ var Kind = ast.NewNodeKind("MermaidBlock")
 //	```
 //
 // Its raw contents are the plain text of the Mermaid diagram.
-type Block struct {
-	ast.BaseBlock
-}
-
-// IsRaw reports that this block should be rendered as-is.
-func (*Block) IsRaw() bool { return true }
-
-// Kind reports that this is a MermaidBlock.
-func (*Block) Kind() ast.NodeKind { return Kind }
-
-// Dump dumps the contents of this block to stdout.
-func (b *Block) Dump(src []byte, level int) {
-	ast.DumpHelper(b, src, level, nil, nil)
-}
+type Block = mermaid.Block
 
 // ScriptKind is the kind of a Mermaid Script block.
-var ScriptKind = ast.NewNodeKind("MermaidScriptBlock")
+var ScriptKind = mermaid.ScriptKind
 
 // ScriptBlock marks where the Mermaid Javascript will be included.
 //
 // This is a placeholder and does not contain anything.
-type ScriptBlock struct {
-	ast.BaseBlock
-}
-
-// IsRaw reports that this block should be rendered as-is.
-func (*ScriptBlock) IsRaw() bool { return true }
-
-// Kind reports that this is a MermaidScriptBlock.
-func (*ScriptBlock) Kind() ast.NodeKind { return ScriptKind }
-
-// Dump dumps the contents of this block to stdout.
-func (b *ScriptBlock) Dump(src []byte, level int) {
-	ast.DumpHelper(b, src, level, nil, nil)
-}
+type ScriptBlock = mermaid.ScriptBlock
