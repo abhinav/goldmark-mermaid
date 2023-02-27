@@ -10,6 +10,10 @@ support for [Mermaid] diagrams.
   [goldmark]: http://github.com/yuin/goldmark
   [Mermaid]: https://mermaid-js.github.io/mermaid/
 
+**Demo**:
+A web-based demonstration of the extension is available at
+<https://abhinav.github.io/goldmark-mermaid/demo/>.
+
 ## Installation
 
 ```bash

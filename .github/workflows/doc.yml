@@ -1,4 +1,4 @@
-name: Publish API Reference
+name: Publish documentation
 
 on:
   # Publish documentation when a new release is tagged.
@@ -40,6 +40,10 @@ jobs:
         run: go install go.abhg.dev/doc2go@latest
       - name: Generate API reference
         run: doc2go -home go.abhg.dev/goldmark/mermaid  ./...
+      - name: Build demo website
+        run: |
+          make -C demo
+          cp -r demo/static _site/demo
       - name: Upload pages
         uses: actions/upload-pages-artifact@v1
 
