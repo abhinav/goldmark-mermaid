@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/mgechev/revive v1.2.5
-	golang.org/x/tools v0.5.0
+	golang.org/x/tools v0.6.0
 	honnef.co/go/tools v0.4.0
 )
 
@@ -21,6 +21,6 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20221208152030-732eee02a75a // indirect
-	golang.org/x/mod v0.7.0 // indirect
-	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/mod v0.8.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
 )
