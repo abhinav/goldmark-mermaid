@@ -46,7 +46,7 @@ func (*ClientRenderer) Render(w util.BufWriter, src []byte, node ast.Node, enter
 }
 
 // RenderScript renders mermaid.ScriptBlock nodes.
-func (r *ClientRenderer) RenderScript(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *ClientRenderer) RenderScript(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	mermaidJS := r.MermaidJS
 	if len(mermaidJS) == 0 {
 		mermaidJS = _defaultMermaidJS
