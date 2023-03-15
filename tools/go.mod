@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/mgechev/revive v1.2.5
 	golang.org/x/tools v0.7.0
-	honnef.co/go/tools v0.4.2
+	honnef.co/go/tools v0.4.3
 )
 
 require (
