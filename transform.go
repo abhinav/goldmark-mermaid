@@ -23,7 +23,7 @@ type Transformer struct {
 var _mermaid = []byte("mermaid")
 
 // Transform transforms the provided Markdown AST.
-func (t *Transformer) Transform(doc *ast.Document, reader text.Reader, pctx parser.Context) {
+func (t *Transformer) Transform(doc *ast.Document, reader text.Reader, _ parser.Context) {
 	var (
 		hasScript     bool
 		mermaidBlocks []*ast.FencedCodeBlock

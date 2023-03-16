@@ -15,7 +15,7 @@ func main() {
 	select {}
 }
 
-func formatMarkdown(this js.Value, args []js.Value) any {
+func formatMarkdown(_ js.Value, args []js.Value) any {
 	input := args[0].String()
 
 	md := goldmark.New(
