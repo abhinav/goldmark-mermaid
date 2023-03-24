@@ -3,6 +3,7 @@ package mermaid
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"os"
 
 	"github.com/yuin/goldmark/ast"
@@ -20,6 +21,13 @@ type ServerRenderer struct {
 	//
 	// Uses CLI by default.
 	MMDC MMDC
+
+	// ContainerTag is the name of the HTML tag to use for the container
+	// that holds the Mermaid diagram.
+	// The name must be without the angle brackets.
+	//
+	// Defaults to "div".
+	ContainerTag string
 
 	// Theme for mermaid diagrams.
 	//
@@ -50,12 +58,21 @@ func (r *ServerRenderer) Render(w util.BufWriter, src []byte, node ast.Node, ent
 		mmdc = r.MMDC
 	}
 
+	tag := r.ContainerTag
+	if len(tag) == 0 {
+		tag = "div"
+	}
+
 	n := node.(*Block)
 	if !entering {
-		w.WriteString("</div>")
+		w.WriteString("</")
+		template.HTMLEscape(w, []byte(tag))
+		w.WriteString(">")
 		return ast.WalkContinue, nil
 	}
-	w.WriteString(`<div class="mermaid">`)
+	w.WriteString("<")
+	template.HTMLEscape(w, []byte(tag))
+	w.WriteString(` class="mermaid">`)
 
 	var buff bytes.Buffer
 	lines := n.Lines()

@@ -11,18 +11,33 @@ import (
 )
 
 func main() {
-	js.Global().Set("formatMarkdown", js.FuncOf(formatMarkdown))
+	js.Global().Set("formatMarkdown", js.FuncOf(func(this js.Value, args []js.Value) any {
+		var req request
+		req.Decode(args[0])
+
+		return formatMarkdown(&req)
+	}))
 	select {}
 }
 
-func formatMarkdown(_ js.Value, args []js.Value) any {
-	input := args[0].String()
+type request struct {
+	Markdown     string
+	ContainerTag string
+}
 
+func (r *request) Decode(v js.Value) {
+	r.Markdown = v.Get("markdown").String()
+	r.ContainerTag = v.Get("containerTag").String()
+}
+
+func formatMarkdown(r *request) any {
+	input := r.Markdown
 	md := goldmark.New(
 		goldmark.WithExtensions(
 			&mermaid.Extender{
-				RenderMode: mermaid.RenderModeClient,
-				NoScript:   true,
+				RenderMode:   mermaid.RenderModeClient,
+				NoScript:     true,
+				ContainerTag: r.ContainerTag,
 			},
 		),
 	)

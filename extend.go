@@ -28,6 +28,12 @@ type Extender struct {
 	// Defaults to the latest version available on cdn.jsdelivr.net.
 	MermaidJS string
 
+	// HTML tag to use for the container element for diagrams.
+	//
+	// Defaults to "pre" for client-side rendering,
+	// and "div" for server-side rendering.
+	ContainerTag string
+
 	// If true, don't add a <script> including Mermaid to the end of the
 	// page even if rendering diagrams client-side.
 	//
@@ -96,12 +102,14 @@ func (e *Extender) renderer() (RenderMode, renderer.NodeRenderer) {
 	switch mode {
 	case RenderModeClient:
 		return RenderModeClient, &ClientRenderer{
-			MermaidJS: e.MermaidJS,
+			MermaidJS:    e.MermaidJS,
+			ContainerTag: e.ContainerTag,
 		}
 	case RenderModeServer:
 		return RenderModeServer, &ServerRenderer{
-			MMDC:  e.MMDC,
-			Theme: e.Theme,
+			MMDC:         e.MMDC,
+			Theme:        e.Theme,
+			ContainerTag: e.ContainerTag,
 		}
 	default:
 		panic(fmt.Sprintf("unrecognized render mode: %v", mode))
