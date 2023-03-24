@@ -4,13 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.4.0] - 2023-03-24
 ### Changed
 - ClientRenderer: Use `<pre>` instead of `<div>` for diagram containers.
 
 ### Added
 - Support changing the container tag with the `ContainerTag` option.
   This option is available on ClientRenderer, ServerRenderer, and Extender.
+
+  [0.4.0]: https://github.com/abhinav/goldmark-mermaid/releases/tag/v0.4.0
 
 ## [0.3.0] - 2022-12-19
 ### Changed
