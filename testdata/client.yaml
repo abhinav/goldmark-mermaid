@@ -11,12 +11,12 @@
     ```
   want: |
     <p>Transforms mermaid blocks.</p>
-    <div class="mermaid">graph TD;
+    <pre class="mermaid">graph TD;
         A--&gt;B;
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+    </pre><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
 
 - desc: noscript/single block
   noscript: true
@@ -32,12 +32,12 @@
     ```
   want: |
     <p>Single mermaid block.</p>
-    <div class="mermaid">graph TD;
+    <pre class="mermaid">graph TD;
         A--&gt;B;
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </div>
+    </pre>
 
 - desc: unmarked block
   give: |
@@ -92,17 +92,17 @@
     ```
   want: |
     <p>Supports multiple Mermaid blocks. (#3)</p>
-    <div class="mermaid">graph TD;
+    <pre class="mermaid">graph TD;
         A--&gt;B;
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </div><div class="mermaid">graph TD;
+    </pre><pre class="mermaid">graph TD;
         A--&gt;B;
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+    </pre><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
 
 
 - desc: noscript/multiple blocks
@@ -127,14 +127,14 @@
     ```
   want: |
     <p>Supports multiple Mermaid blocks. (#3)</p>
-    <div class="mermaid">graph TD;
+    <pre class="mermaid">graph TD;
         A--&gt;B;
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </div><div class="mermaid">graph TD;
+    </pre><pre class="mermaid">graph TD;
         A--&gt;B;
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </div>
+    </pre>
