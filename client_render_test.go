@@ -17,6 +17,9 @@ func TestRenderer_Block(t *testing.T) {
 	tests := []struct {
 		desc string
 		give string
+
+		tag string // ContainerTag option
+
 		want string
 	}{
 		{
@@ -39,6 +42,12 @@ func TestRenderer_Block(t *testing.T) {
 			give: "A -> B",
 			want: `<pre class="mermaid">A -&gt; B</pre>`,
 		},
+		{
+			desc: "custom container tag",
+			give: "graph TD;",
+			tag:  "div",
+			want: `<div class="mermaid">graph TD;</div>`,
+		},
 	}
 
 	for _, tt := range tests {
@@ -46,7 +55,9 @@ func TestRenderer_Block(t *testing.T) {
 		t.Run(tt.desc, func(t *testing.T) {
 			t.Parallel()
 
-			r := buildNodeRenderer(new(ClientRenderer))
+			r := buildNodeRenderer(&ClientRenderer{
+				ContainerTag: tt.tag,
+			})
 
 			reader := text.NewReader([]byte(tt.give))
 			give := blockFromReader(reader)
@@ -56,6 +67,23 @@ func TestRenderer_Block(t *testing.T) {
 			assert.Equal(t, tt.want, buff.String())
 		})
 	}
+}
+
+func TestRenderer_ContainerTag_arbitraryTagInjection(t *testing.T) {
+	t.Parallel()
+
+	r := buildNodeRenderer(&ClientRenderer{
+		ContainerTag: "pre><script>alert('danger')</script",
+	})
+
+	reader := text.NewReader([]byte(""))
+	give := blockFromReader(reader)
+
+	var buff bytes.Buffer
+	assert.NoError(t, r.Render(&buff, reader.Source(), give), "Render")
+
+	// <script> tag will be escaped.
+	assert.NotContains(t, buff.String(), "<script>")
 }
 
 func TestRenderer_Script(t *testing.T) {

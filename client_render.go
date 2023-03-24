@@ -20,6 +20,13 @@ type ClientRenderer struct {
 	//
 	// Defaults to the latest version available on cdn.jsdelivr.net.
 	MermaidJS string
+
+	// ContainerTag is the name of the HTML tag to use for the container
+	// that holds the Mermaid diagram.
+	// The name must be without the angle brackets.
+	//
+	// Defaults to "pre".
+	ContainerTag string
 }
 
 // RegisterFuncs registers the renderer for Mermaid blocks with the provided
@@ -30,17 +37,27 @@ func (r *ClientRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) 
 }
 
 // Render renders mermaid.Block nodes.
-func (*ClientRenderer) Render(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+func (r *ClientRenderer) Render(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+	tag := r.ContainerTag
+	if len(tag) == 0 {
+		tag = "pre"
+	}
+
 	n := node.(*Block)
 	if entering {
-		w.WriteString(`<pre class="mermaid">`)
+		w.WriteString("<")
+		template.HTMLEscape(w, []byte(tag))
+		w.WriteString(` class="mermaid">`)
+
 		lines := n.Lines()
 		for i := 0; i < lines.Len(); i++ {
 			line := lines.At(i)
 			template.HTMLEscape(w, line.Value(src))
 		}
 	} else {
-		w.WriteString("</pre>")
+		w.WriteString("</")
+		template.HTMLEscape(w, []byte(tag))
+		w.WriteString(">")
 	}
 	return ast.WalkContinue, nil
 }
