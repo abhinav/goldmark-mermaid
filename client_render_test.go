@@ -17,27 +17,36 @@ func TestRenderer_Block(t *testing.T) {
 	tests := []struct {
 		desc string
 		give string
+
+		tag string // ContainerTag option
+
 		want string
 	}{
 		{
 			desc: "empty",
 			give: "",
-			want: `<div class="mermaid"></div>`,
+			want: `<pre class="mermaid"></pre>`,
 		},
 		{
 			desc: "graph",
 			give: "graph TD;",
-			want: `<div class="mermaid">graph TD;</div>`,
+			want: `<pre class="mermaid">graph TD;</pre>`,
 		},
 		{
 			desc: "newlines",
 			give: unlines("foo", "bar"),
-			want: `<div class="mermaid">foo` + "\nbar" + "\n</div>",
+			want: `<pre class="mermaid">foo` + "\nbar" + "\n</pre>",
 		},
 		{
 			desc: "escaping",
 			give: "A -> B",
-			want: `<div class="mermaid">A -&gt; B</div>`,
+			want: `<pre class="mermaid">A -&gt; B</pre>`,
+		},
+		{
+			desc: "custom container tag",
+			give: "graph TD;",
+			tag:  "div",
+			want: `<div class="mermaid">graph TD;</div>`,
 		},
 	}
 
@@ -46,7 +55,9 @@ func TestRenderer_Block(t *testing.T) {
 		t.Run(tt.desc, func(t *testing.T) {
 			t.Parallel()
 
-			r := buildNodeRenderer(new(ClientRenderer))
+			r := buildNodeRenderer(&ClientRenderer{
+				ContainerTag: tt.tag,
+			})
 
 			reader := text.NewReader([]byte(tt.give))
 			give := blockFromReader(reader)
@@ -56,6 +67,23 @@ func TestRenderer_Block(t *testing.T) {
 			assert.Equal(t, tt.want, buff.String())
 		})
 	}
+}
+
+func TestRenderer_ContainerTag_arbitraryTagInjection(t *testing.T) {
+	t.Parallel()
+
+	r := buildNodeRenderer(&ClientRenderer{
+		ContainerTag: "pre><script>alert('danger')</script",
+	})
+
+	reader := text.NewReader([]byte(""))
+	give := blockFromReader(reader)
+
+	var buff bytes.Buffer
+	assert.NoError(t, r.Render(&buff, reader.Source(), give), "Render")
+
+	// <script> tag will be escaped.
+	assert.NotContains(t, buff.String(), "<script>")
 }
 
 func TestRenderer_Script(t *testing.T) {
