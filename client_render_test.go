@@ -22,22 +22,22 @@ func TestRenderer_Block(t *testing.T) {
 		{
 			desc: "empty",
 			give: "",
-			want: `<div class="mermaid"></div>`,
+			want: `<pre class="mermaid"></pre>`,
 		},
 		{
 			desc: "graph",
 			give: "graph TD;",
-			want: `<div class="mermaid">graph TD;</div>`,
+			want: `<pre class="mermaid">graph TD;</pre>`,
 		},
 		{
 			desc: "newlines",
 			give: unlines("foo", "bar"),
-			want: `<div class="mermaid">foo` + "\nbar" + "\n</div>",
+			want: `<pre class="mermaid">foo` + "\nbar" + "\n</pre>",
 		},
 		{
 			desc: "escaping",
 			give: "A -> B",
-			want: `<div class="mermaid">A -&gt; B</div>`,
+			want: `<pre class="mermaid">A -&gt; B</pre>`,
 		},
 	}
 
