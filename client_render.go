@@ -33,14 +33,14 @@ func (r *ClientRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) 
 func (*ClientRenderer) Render(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*Block)
 	if entering {
-		w.WriteString(`<div class="mermaid">`)
+		w.WriteString(`<pre class="mermaid">`)
 		lines := n.Lines()
 		for i := 0; i < lines.Len(); i++ {
 			line := lines.At(i)
 			template.HTMLEscape(w, line.Value(src))
 		}
 	} else {
-		w.WriteString("</div>")
+		w.WriteString("</pre>")
 	}
 	return ast.WalkContinue, nil
 }
