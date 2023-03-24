@@ -25,6 +25,8 @@ func TestIntegration_Client(t *testing.T) {
 		NoScript bool   `yaml:"noscript"`
 		Give     string `yaml:"give"`
 		Want     string `yaml:"want"`
+
+		ContainerTag string `yaml:"containerTag"`
 	}
 	require.NoError(t, yaml.Unmarshal(testdata, &tests))
 
@@ -32,9 +34,10 @@ func TestIntegration_Client(t *testing.T) {
 		tt := tt
 		t.Run(tt.Desc, func(t *testing.T) {
 			ext := mermaid.Extender{
-				RenderMode: mermaid.RenderModeClient,
-				MermaidJS:  "mermaid.js",
-				NoScript:   tt.NoScript,
+				RenderMode:   mermaid.RenderModeClient,
+				MermaidJS:    "mermaid.js",
+				NoScript:     tt.NoScript,
+				ContainerTag: tt.ContainerTag,
 			}
 			md := goldmark.New(goldmark.WithExtensions(&ext))
 
@@ -58,6 +61,8 @@ func TestIntegration_Server(t *testing.T) {
 		Desc string `yaml:"desc"`
 		Give string `yaml:"give"`
 		Want string `yaml:"want"`
+
+		ContainerTag string `yaml:"containerTag"`
 	}
 	require.NoError(t, yaml.Unmarshal(testdata, &tests))
 
@@ -84,8 +89,9 @@ func TestIntegration_Server(t *testing.T) {
 			}
 
 			ext := mermaid.Extender{
-				RenderMode: mermaid.RenderModeServer,
-				MMDC:       &mmdc,
+				RenderMode:   mermaid.RenderModeServer,
+				MMDC:         &mmdc,
+				ContainerTag: tt.ContainerTag,
 			}
 			md := goldmark.New(goldmark.WithExtensions(&ext))
 

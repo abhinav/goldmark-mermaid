@@ -138,3 +138,25 @@
         B--&gt;D;
         C--&gt;D;
     </pre>
+
+- desc: container tag
+  containerTag: div
+  give: |
+    Transforms mermaid blocks.
+
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+  want: |
+    <p>Transforms mermaid blocks.</p>
+    <div class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+

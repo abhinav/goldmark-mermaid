@@ -51,6 +51,38 @@ func TestServerRenderer_Simple(t *testing.T) {
 	assert.Equal(t, `<div class="mermaid"><svg>A -> B</svg></div>`, buff.String())
 }
 
+func TestServerRenderer_ContainerTag(t *testing.T) {
+	mmdc := exectest.Act(t, func() {
+		opts, err := parseMermaidOpts(os.Args[1:])
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		src, err := os.ReadFile(opts.Input)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// This isn't real output, but it's good enough for the test.
+		svg := "<svg>" + string(src) + "</svg>"
+		if err := os.WriteFile(opts.Output, []byte(svg), 0o644); err != nil {
+			log.Fatal(err)
+		}
+	})
+
+	r := buildNodeRenderer(&ServerRenderer{
+		MMDC:         mmdc,
+		Theme:        "neutral",
+		ContainerTag: "pre",
+	})
+	reader := text.NewReader([]byte(`A -> B`))
+	give := blockFromReader(reader)
+
+	var buff bytes.Buffer
+	require.NoError(t, r.Render(&buff, reader.Source(), give), "Render")
+	assert.Equal(t, `<pre class="mermaid"><svg>A -> B</svg></pre>`, buff.String())
+}
+
 func TestServerRenderer_Error_MermaidRender(t *testing.T) {
 	mmdc := exectest.Act(t, func() {
 		log.Fatal("great sadness")

@@ -59,6 +59,12 @@ graph LR
   A --&gt; B
 ```
 </textarea>
+
+        <label for="containerTag">Container Tag</label>
+        <select id="containerTag" active="after">
+          <option value="pre" selected>pre</option>
+          <option value="div">div</option>
+        </select>
       </div>
 
       <div class="output-container">
@@ -72,13 +78,18 @@ graph LR
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
     const input = document.getElementById("input");
+    const containerTag = document.getElementById("containerTag");
     const output = document.getElementById("output");
     mermaid.initialize();
 
     input.addEventListener("input", refresh);
+    containerTag.addEventListener("change", refresh);
 
     function refresh() {
-      output.innerHTML = formatMarkdown(input.value);
+      output.innerHTML = formatMarkdown({
+        markdown: input.value,
+        containerTag: containerTag.value,
+      });
       mermaid.run();
     }
   </script>
