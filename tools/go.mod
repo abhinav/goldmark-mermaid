@@ -3,7 +3,7 @@ module go.abhg.dev/goldmark/mermaid/tools
 go 1.19
 
 require (
-	github.com/mgechev/revive v1.3.1
+	github.com/mgechev/revive v1.3.2
 	golang.org/x/tools v0.9.1
 	honnef.co/go/tools v0.4.3
 )
