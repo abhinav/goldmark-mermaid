@@ -16,6 +16,8 @@ import (
 )
 
 func TestServerRenderer_Simple(t *testing.T) {
+	t.Parallel()
+
 	mmdc := exectest.Act(t, func() {
 		opts, err := parseMermaidOpts(os.Args[1:])
 		if err != nil {
@@ -52,6 +54,8 @@ func TestServerRenderer_Simple(t *testing.T) {
 }
 
 func TestServerRenderer_ContainerTag(t *testing.T) {
+	t.Parallel()
+
 	mmdc := exectest.Act(t, func() {
 		opts, err := parseMermaidOpts(os.Args[1:])
 		if err != nil {
@@ -84,6 +88,8 @@ func TestServerRenderer_ContainerTag(t *testing.T) {
 }
 
 func TestServerRenderer_Error_MermaidRender(t *testing.T) {
+	t.Parallel()
+
 	mmdc := exectest.Act(t, func() {
 		log.Fatal("great sadness")
 	})
@@ -99,6 +105,8 @@ func TestServerRenderer_Error_MermaidRender(t *testing.T) {
 }
 
 func TestServerRenderer_Error_NoOutput(t *testing.T) {
+	t.Parallel()
+
 	mmdc := exectest.Act(t, func() {
 		opts, err := parseMermaidOpts(os.Args[1:])
 		if err != nil {
@@ -122,6 +130,8 @@ func TestServerRenderer_Error_NoOutput(t *testing.T) {
 }
 
 func TestServerRenderer_Empty(t *testing.T) {
+	t.Parallel()
+
 	mmdc := exectest.Act(t, func() {
 		log.Fatal("should not be called")
 	})
@@ -136,6 +146,8 @@ func TestServerRenderer_Empty(t *testing.T) {
 }
 
 func TestServerRenderer_ScriptKindNoop(t *testing.T) {
+	t.Parallel()
+
 	mmdc := exectest.Act(t, func() {
 		log.Fatal("should not be called")
 	})

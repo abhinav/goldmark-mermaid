@@ -15,6 +15,8 @@ import (
 )
 
 func TestCommandSuccess(t *testing.T) {
+	t.Parallel()
+
 	cmd := Act(t, func() {
 		fmt.Println("hello world")
 	}).Command()
@@ -28,6 +30,8 @@ func TestCommandSuccess(t *testing.T) {
 }
 
 func TestCommandNonZero(t *testing.T) {
+	t.Parallel()
+
 	cmd := Act(t, func() {
 		fmt.Fprintln(os.Stderr, "great sadness")
 		os.Exit(1)
@@ -45,6 +49,8 @@ func TestCommandNonZero(t *testing.T) {
 }
 
 func TestCommandArgs(t *testing.T) {
+	t.Parallel()
+
 	actor := Act(t, func() {
 		enc := json.NewEncoder(os.Stdout)
 		if err := enc.Encode(os.Args[1:]); err != nil {

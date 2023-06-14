@@ -65,14 +65,14 @@ func (r *ServerRenderer) Render(w util.BufWriter, src []byte, node ast.Node, ent
 
 	n := node.(*Block)
 	if !entering {
-		w.WriteString("</")
+		_, _ = w.WriteString("</")
 		template.HTMLEscape(w, []byte(tag))
-		w.WriteString(">")
+		_, _ = w.WriteString(">")
 		return ast.WalkContinue, nil
 	}
-	w.WriteString("<")
+	_, _ = w.WriteString("<")
 	template.HTMLEscape(w, []byte(tag))
-	w.WriteString(` class="mermaid">`)
+	_, _ = w.WriteString(` class="mermaid">`)
 
 	var buff bytes.Buffer
 	lines := n.Lines()
@@ -107,7 +107,9 @@ func (d *mermaidGenerator) Generate(src []byte) (_ []byte, err error) {
 	if err != nil {
 		return nil, err
 	}
-	defer os.Remove(input.Name()) // ignore error
+	defer func() {
+		_ = os.Remove(input.Name()) // ignore error
+	}()
 
 	_, err = input.Write(src)
 	if err == nil {
@@ -121,7 +123,9 @@ func (d *mermaidGenerator) Generate(src []byte) (_ []byte, err error) {
 	if err != nil {
 		return nil, err
 	}
-	defer os.Remove(output.Name()) // ignore error
+	defer func() {
+		_ = os.Remove(output.Name()) // ignore error
+	}()
 	if err := output.Close(); err != nil {
 		return nil, err
 	}

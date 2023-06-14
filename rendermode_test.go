@@ -7,6 +7,8 @@ import (
 )
 
 func TestRenderMode_String(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		mode RenderMode
 		str  string
@@ -18,7 +20,10 @@ func TestRenderMode_String(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.str, func(t *testing.T) {
+			t.Parallel()
+
 			assert.Equal(t, tt.str, tt.mode.String())
 		})
 	}
