@@ -24,6 +24,8 @@ func hijackStdout(t testing.TB) (path string, close func() error) {
 }
 
 func TestBlock(t *testing.T) {
+	t.Parallel()
+
 	src := []byte("foo\n")
 
 	lines := text.NewSegments()
@@ -33,9 +35,12 @@ func TestBlock(t *testing.T) {
 	b.SetLines(lines)
 
 	t.Run("Raw", func(t *testing.T) {
+		t.Parallel()
+
 		assert.True(t, b.IsRaw())
 	})
 
+	//nolint:paralleltest // hijacks stdout
 	t.Run("Dump", func(t *testing.T) {
 		stdout, closeStdout := hijackStdout(t)
 
@@ -54,12 +59,17 @@ func TestBlock(t *testing.T) {
 }
 
 func TestScript(t *testing.T) {
+	t.Parallel()
+
 	var sb ScriptBlock
 
 	t.Run("Raw", func(t *testing.T) {
+		t.Parallel()
+
 		assert.True(t, sb.IsRaw())
 	})
 
+	//nolint:paralleltest // hijacks stdout
 	t.Run("Dump", func(t *testing.T) {
 		stdout, closeStdout := hijackStdout(t)
 

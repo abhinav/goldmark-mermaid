@@ -3,6 +3,7 @@ package mermaid_test
 import (
 	"bytes"
 	"os"
+	"os/exec"
 	"regexp"
 	"strings"
 	"testing"
@@ -33,6 +34,8 @@ func TestIntegration_Client(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.Desc, func(t *testing.T) {
+			t.Parallel()
+
 			ext := mermaid.Extender{
 				RenderMode:   mermaid.RenderModeClient,
 				MermaidJS:    "mermaid.js",
@@ -53,6 +56,10 @@ func TestIntegration_Client(t *testing.T) {
 
 func TestIntegration_Server(t *testing.T) {
 	t.Parallel()
+
+	if _, err := exec.LookPath("mmdc"); err != nil {
+		t.Skip("mmdc not found")
+	}
 
 	testdata, err := os.ReadFile("testdata/server.yaml")
 	require.NoError(t, err)
@@ -83,6 +90,8 @@ func TestIntegration_Server(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.Desc, func(t *testing.T) {
+			t.Parallel()
+
 			// 'yarn install' must already have been run.
 			mmdc := mermaid.CLI{
 				Path: "node_modules/.bin/mmdc",

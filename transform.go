@@ -30,7 +30,7 @@ func (t *Transformer) Transform(doc *ast.Document, reader text.Reader, _ parser.
 	)
 
 	// Collect all blocks to be replaced without modifying the tree.
-	ast.Walk(doc, func(node ast.Node, enter bool) (ast.WalkStatus, error) {
+	_ = ast.Walk(doc, func(node ast.Node, enter bool) (ast.WalkStatus, error) {
 		if !enter {
 			return ast.WalkContinue, nil
 		}

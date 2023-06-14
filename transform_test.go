@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/parser"
@@ -89,7 +90,7 @@ func TestTransformer(t *testing.T) {
 				gotBodies []string
 				gotScript int
 			)
-			ast.Walk(got, func(node ast.Node, enter bool) (ast.WalkStatus, error) {
+			err := ast.Walk(got, func(node ast.Node, enter bool) (ast.WalkStatus, error) {
 				if !enter {
 					return ast.WalkContinue, nil
 				}
@@ -111,7 +112,7 @@ func TestTransformer(t *testing.T) {
 
 				return ast.WalkContinue, nil
 			})
-
+			require.NoError(t, err)
 			assert.Equal(t, tt.wantBodies, gotBodies)
 			if tt.wantScript {
 				assert.Equal(t, 1, gotScript)
@@ -142,12 +143,12 @@ func TestTransformer_RepeatedTransformations(t *testing.T) {
 	}
 
 	var scriptCount int
-	ast.Walk(doc, func(node ast.Node, enter bool) (ast.WalkStatus, error) {
+	err := ast.Walk(doc, func(node ast.Node, enter bool) (ast.WalkStatus, error) {
 		if _, ok := node.(*ScriptBlock); ok && enter {
 			scriptCount++
 		}
 		return ast.WalkContinue, nil
 	})
-
+	require.NoError(t, err)
 	assert.Equal(t, 1, scriptCount)
 }

@@ -8,7 +8,11 @@ import (
 )
 
 func TestExtender_rendererAuto(t *testing.T) {
+	t.Parallel()
+
 	t.Run("client", func(t *testing.T) {
+		t.Parallel()
+
 		ext := Extender{
 			execLookPath: func(string) (string, error) {
 				return "", errors.New("great sadness")
@@ -21,6 +25,8 @@ func TestExtender_rendererAuto(t *testing.T) {
 	})
 
 	t.Run("server", func(t *testing.T) {
+		t.Parallel()
+
 		ext := Extender{
 			execLookPath: func(string) (string, error) {
 				return "/path/to/mmdc", nil
@@ -33,6 +39,8 @@ func TestExtender_rendererAuto(t *testing.T) {
 	})
 
 	t.Run("unknown mode", func(t *testing.T) {
+		t.Parallel()
+
 		ext := Extender{RenderMode: 42}
 		assert.Panics(t, func() {
 			ext.renderer()
