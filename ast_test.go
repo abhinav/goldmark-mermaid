@@ -40,7 +40,6 @@ func TestBlock(t *testing.T) {
 		assert.True(t, b.IsRaw())
 	})
 
-	//nolint:paralleltest // hijacks stdout
 	t.Run("Dump", func(t *testing.T) {
 		stdout, closeStdout := hijackStdout(t)
 
@@ -69,7 +68,6 @@ func TestScript(t *testing.T) {
 		assert.True(t, sb.IsRaw())
 	})
 
-	//nolint:paralleltest // hijacks stdout
 	t.Run("Dump", func(t *testing.T) {
 		stdout, closeStdout := hijackStdout(t)
 
