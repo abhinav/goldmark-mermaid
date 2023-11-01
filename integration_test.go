@@ -3,7 +3,7 @@ package mermaid_test
 import (
 	"bytes"
 	"os"
-	"os/exec"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"testing"
@@ -57,8 +57,9 @@ func TestIntegration_Client(t *testing.T) {
 func TestIntegration_Server(t *testing.T) {
 	t.Parallel()
 
-	if _, err := exec.LookPath("mmdc"); err != nil {
-		t.Skip("mmdc not found")
+	mmdcPath := filepath.Join("node_modules", ".bin", "mmdc")
+	if _, err := os.Stat(mmdcPath); err != nil {
+		t.Fatalf("mmdc not found at %s", mmdcPath)
 	}
 
 	testdata, err := os.ReadFile("testdata/server.yaml")
