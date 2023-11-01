@@ -1,0 +1,3 @@
+kind: Removed
+body: 'ServerRenderer: Delete `MMDC` and `Theme` fields. Use `CLICompiler` instead.'
+time: 2023-11-03T21:53:08.048952903-07:00

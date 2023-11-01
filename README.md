@@ -3,7 +3,9 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Rendering methods](#rendering-methods)
+- [Rendering](#rendering)
+  - [Rendering modes](#rendering-methods)
+  - [Server-side rendering](#server-side-rendering)
 - [License](#license)
 
 ## Introduction
@@ -21,8 +23,9 @@ https://abhinav.github.io/goldmark-mermaid/demo/.
 
 ### Features
 
-- Client-side rendering by injecting JavaScript
-- Server-side rendering with the Mermaid CLI
+- Pluggable components
+- Supports client-side rendering by injecting JavaScript
+- Supports server-side rendering with the MermaidJS CLI or with your browser
 
 ## Installation
 
@@ -67,19 +70,23 @@ graph TD;
 
 When you render the Markdown as HTML, these will be rendered into diagrams.
 
-## Rendering methods
+You can also render diagrams server-side if you have a Chromium-like browser
+installed. See [Rendering with CDP](#render-cdp) for details.
 
-Mermaid diagrams can be rendered
-at the time the file is processed ("server-side")
-or in-browser when the file is viewed ("client-side").
+## Rendering
 
-- With server-side rendering, goldmark-mermaid calls out to the
-  [MermaidJS CLI](https://github.com/mermaid-js/mermaid-cli)
-  to render SVGs inline into the document.
-- With client-side rendering, goldmark-mermaid generates HTML that
-  renders diagrams in-browser.
+### Rendering methods
 
-You can pick between the two by setting `RenderMode` on `mermaid.Extender`.
+goldmark-mermaid supports two rendering modes:
+
+- **Client-side**:
+  Diagrams are rendered in-browser by injecting MermaidJS
+  into the generated HTML.
+- **Server-side**:
+  Diagrams are rendered at the time the HTML is generated.
+  The browser receives only the final SVGs.
+
+You can pick between these by setting the `RenderMode` field.
 
 ```go
 goldmark.New(
@@ -92,8 +99,93 @@ goldmark.New(
 ).Convert(src, out)
 ```
 
-By default, goldmark-mermaid will pick between the two,
-based on whether it was able to find the `mmdc` executable on your `$PATH`.
+A third automatic mode is provided as a convenience.
+It automatically picks between client-side and server-side rendering
+based on other configurations and system functionality.
+This mode is the default.
+
+### Server-side rendering
+
+goldmark-mermaid offers two options for server-side rendering:
+
+- **CLI-based rendering**
+  invokes the MermaidJS CLI (`mmdc`) on your system to render diagrams
+- **CDP-based rendering**
+  uses Chrome DevTools Protocol to drive a headless browser on your system,
+  and uses it to render diagrams
+
+#### Rendering with the MermaidJS CLI
+
+If server-side rendering is chosen, by default, the CLI-based renderer is used.
+You can request it explicitly
+by supplying a `CLICompiler` to `mermaid.Extender` or `mermaid.ServerRenderer`.
+
+```go
+&mermaid.Extender{
+  Compiler: &mermaid.CLICompiler{
+    Theme: "neutral",
+  },
+}
+```
+
+By default, the `CLICompiler` will search for `mmdc` on your `$PATH`.
+Specify an alternative path with the `CLI` field:
+
+```go
+&mermaid.CLICompiler{
+  CLI: mermaid.MMDC(pathToMMDC),
+}
+```
+
+#### Rendering with Chrome DevTools Protocol
+
+<a id="render-cdp"></a>
+
+If you have a Chromium-like browser installed on your system
+goldmark-mermaid can spin up a long-running headless process of it,
+and use that to render MermaidJS diagrams.
+
+To use this, first download a minified copy of the MermaidJS source code.
+You can get it from https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js.
+Embed this into your program with `go:embed`.
+
+```go
+import _ "embed" // needed for go:embed
+
+//go:embed mermaid.min.js
+var mermaidJSSource string
+```
+
+Next, import `go.abhg.dev/goldmark/mermaid/mermaidcdp`,
+and set up a `mermaidcdp.Compiler`.
+
+```go
+compiler, err := mermaidcdp.New(&mermaidcdp.Config{
+  JSSource: mermaidJSSource,
+})
+if err != nil {
+  panic(err)
+}
+defer compiler.Close() // Don't forget this!
+```
+
+Plug this compiler into the `mermaid.Extender` that
+you install into your Goldmark Markdown object,
+and use the Markdown object like usual.
+
+```go
+md := goldmark.New(
+  goldmark.WithExtensions(
+    // ...
+    &mermaid.Extender{
+      Compiler: compiler,
+    },
+  ),
+  // ...
+)
+
+md.Convert(...)
+```
 
 ## License
 

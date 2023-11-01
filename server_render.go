@@ -2,25 +2,45 @@ package mermaid
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"html/template"
-	"os"
 
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
 )
 
+// Compiler compiles Mermaid diagrams into images.
+// It is used with [ServerRenderer] to render Mermaid diagrams server-side.
+type Compiler interface {
+	Compile(context.Context, *CompileRequest) (*CompileResponse, error)
+}
+
+// CompileRequest is a request to compile a Mermaid diagram.
+type CompileRequest struct {
+	// Source is the raw Mermaid diagram source.
+	Source string
+}
+
+// CompileResponse is a response from compiling a Mermaid diagram.
+type CompileResponse struct {
+	// SVG holds the SVG diagram text
+	// including the <svg>...</svg> tags.
+	SVG string
+}
+
 // ServerRenderer renders Mermaid diagrams into images server-side.
 //
-// It operates by replacing mermaid code blocks in your document
-// with SVGs.
+// By default, it uses [CLICompiler] to compile Mermaid diagrams.
+// You can specify a different compiler with [Compiler].
+// For long-running processes, you should use the compiler
+// provided by the mermaidcdp package.
 type ServerRenderer struct {
-	// MMDC is the MermaidJS CLI that we'll use
-	// to render Mermaid diagrams server-side.
+	// Compiler specifies how to compile Mermaid diagrams into images.
 	//
-	// Uses CLI by default.
-	MMDC MMDC
+	// If unspecified, this uses CLICompiler.
+	Compiler Compiler
 
 	// ContainerTag is the name of the HTML tag to use for the container
 	// that holds the Mermaid diagram.
@@ -28,12 +48,6 @@ type ServerRenderer struct {
 	//
 	// Defaults to "div".
 	ContainerTag string
-
-	// Theme for mermaid diagrams.
-	//
-	// Values include "dark", "default", "forest", and "neutral".
-	// See MermaidJS documentation for a full list.
-	Theme string
 }
 
 // RegisterFuncs registers the renderer for Mermaid blocks with the provided
@@ -53,9 +67,9 @@ func (r *ServerRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) 
 
 // Render renders [Block] nodes.
 func (r *ServerRenderer) Render(w util.BufWriter, src []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	var mmdc MMDC = DefaultMMDC
-	if r.MMDC != nil {
-		mmdc = r.MMDC
+	compiler := r.Compiler
+	if compiler == nil {
+		compiler = new(CLICompiler)
 	}
 
 	tag := r.ContainerTag
@@ -85,85 +99,13 @@ func (r *ServerRenderer) Render(w util.BufWriter, src []byte, node ast.Node, ent
 		return ast.WalkContinue, nil
 	}
 
-	svgout, err := (&mermaidGenerator{
-		MMDC:  mmdc,
-		Theme: r.Theme,
-	}).Generate(buff.Bytes())
+	res, err := compiler.Compile(context.Background(), &CompileRequest{
+		Source: buff.String(),
+	})
 	if err != nil {
 		return ast.WalkContinue, fmt.Errorf("generate svg: %w", err)
 	}
 
-	_, err = w.Write(svgout)
+	_, err = w.WriteString(res.SVG)
 	return ast.WalkContinue, err
-}
-
-type mermaidGenerator struct {
-	MMDC  MMDC
-	Theme string
-}
-
-func (d *mermaidGenerator) Generate(src []byte) (_ []byte, err error) {
-	input, err := os.CreateTemp("", "in.*.mermaid")
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		_ = os.Remove(input.Name()) // ignore error
-	}()
-
-	_, err = input.Write(src)
-	if err == nil {
-		err = input.Close()
-	}
-	if err != nil {
-		return nil, fmt.Errorf("write input: %w", err)
-	}
-
-	output, err := os.CreateTemp("", "out.*.svg")
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		_ = os.Remove(output.Name()) // ignore error
-	}()
-	if err := output.Close(); err != nil {
-		return nil, err
-	}
-
-	args := []string{
-		"--input", input.Name(),
-		"--output", output.Name(),
-		"--outputFormat", "svg",
-		"--quiet",
-	}
-	if len(d.Theme) > 0 {
-		args = append(args, "--theme", d.Theme)
-	}
-
-	cmd := d.MMDC.Command(args...)
-	// If the user-provided MMDC didn't set Stdout/Stderr,
-	// capture its output and if anything fails beyond this point,
-	// include the output in the error.
-	var cmdout bytes.Buffer
-	defer func() {
-		if err != nil && cmdout.Len() > 0 {
-			err = fmt.Errorf("%w\noutput:\n%s", err, cmdout.String())
-		}
-	}()
-	if cmd.Stdout == nil {
-		cmd.Stdout = &cmdout
-	}
-	if cmd.Stderr == nil {
-		cmd.Stderr = &cmdout
-	}
-
-	if err := cmd.Run(); err != nil {
-		return nil, fmt.Errorf("mmdc: %w", err)
-	}
-
-	out, err := os.ReadFile(output.Name())
-	if err != nil {
-		return nil, fmt.Errorf("read svg: %w", err)
-	}
-	return out, nil
 }

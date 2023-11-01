@@ -1,0 +1,1 @@
+../../internal/testdata/mermaid-10.6.0.js

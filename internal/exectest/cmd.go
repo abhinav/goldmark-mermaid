@@ -4,6 +4,7 @@
 package exectest
 
 import (
+	"context"
 	"flag"
 	"os"
 	"os/exec"
@@ -59,24 +60,24 @@ func Act(t testing.TB, main func()) *Actor {
 	}
 }
 
-// Command builds an exec.Cmd that will run this Actor as an external
+// CommandContext builds an exec.Cmd that will run this Actor as an external
 // executable with the provided arguments.
 //
 // This operates by re-running the test executable to run only the current
 // test, and hijacking that test execution to run the main function.
 //
 //	actor := exectest.Act(t, func() { fmt.Println("hello") })
-//	cmd := actor.Command(args)
+//	cmd := actor.CommandContext(ctx, args)
 //	got, err := cmd.Output()
 //	...
 //	fmt.Println(string(got) == "hello\n") // true
-func (c *Actor) Command(args ...string) *exec.Cmd {
+func (c *Actor) CommandContext(ctx context.Context, args ...string) *exec.Cmd {
 	testArgs := []string{"-test.run", "^" + c.testName + "$"}
 	if len(args) > 0 {
 		testArgs = append(testArgs, "--")
 		testArgs = append(testArgs, args...)
 	}
-	cmd := exec.Command(c.testExe, testArgs...)
+	cmd := exec.CommandContext(ctx, c.testExe, testArgs...)
 
 	// Args[0] is the value of os.Args[0] for the new executable.
 	// os.Args[0] is allowed to be different from the command.

@@ -111,7 +111,7 @@ func TestRenderer_Script(t *testing.T) {
 			t.Parallel()
 
 			r := buildNodeRenderer(&ClientRenderer{
-				MermaidJS: tt.mermaidJS,
+				MermaidURL: tt.mermaidJS,
 			})
 
 			var buff bytes.Buffer

@@ -34,3 +34,6 @@ graph TD;
 </pre>
 
 When you render the Markdown as HTML, these will be rendered into diagrams.
+
+You can also render diagrams server-side if you have a Chromium-like browser
+installed. See [Rendering with CDP](render-server.md#render-cdp) for details.
