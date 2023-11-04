@@ -16,5 +16,6 @@ A web-based demonstration of the extension is available at
 
 ## Features
 
-- Client-side rendering by injecting JavaScript
-- Server-side rendering with the Mermaid CLI
+- Pluggable components
+- Supports client-side rendering by injecting JavaScript
+- Supports server-side rendering with the MermaidJS CLI or with your browser

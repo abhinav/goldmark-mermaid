@@ -1,0 +1,314 @@
+= Rendering Mermaid diagrams with Chrome DevTools Protocol
+:toc: preamble
+:source-language: go
+
+Abstract::
+  This documents a design for adding support to goldmark-mermaid
+  for rendering Mermaid diagrams server-side
+  using the Chrome DevTools Protocol (CDP).
+Issue::
+  https://github.com/abhinav/goldmark-mermaid/issues/28[#28]
+
+== Background
+
+goldmark-mermaid supports two forms of rendering:
+client-side and server-side.
+Server-side rendering is implemented by
+shelling out to the Mermaid CLI (`mmdc`).
+
+It is possible to implement this functionality without the Mermaid CLI
+with use of the Chrome DevTools Protocol (CDP).
+CDP expects Chrome, Chromium, or another compatible browser on the system.
+It spawns a headless version of the browser, and drives it with an RPC API.
+
+`mmdc` relies on Puppeteer, which uses similar technology.
+So if `mmdc` works on a system, so will CDP.
+
+=== Existing API
+
+goldmark-mermaid currently offers the following APIs
+with regards to server-side rendering.
+
+----
+// MMDC builds an exec.Cmd that will run
+// the Mermaid CLI with the provided arguments.
+type MMDC struct {
+  Command(...string) *exec.Cmd
+}
+
+type CLI struct{ /* .. */ }
+
+var _ MMDC = (*CLI)(nil)
+
+// ServerRenderer renders Goldmark diagrams server-side,
+// replacing them with SVGs in the final output.
+//
+// It is a goldmark.NodeRenderer.
+type ServerRenderer struct {
+  MMDC  MMDC
+  Theme string
+  // ...
+}
+
+// Extender extends a goldmark.Markdown,
+// installing the ServerRenderer if appropriate.
+type Extender struct {
+  RenderMode RenderMode
+  MMDC       MMDC
+  Theme      Theme
+  // ...
+}
+
+type RenderMode int
+
+const (
+  // RenderModeServer indicates that we're rendering diagrams
+  // server-side.
+  RenderModeServer RenderMode = // ...
+  // ...
+)
+----
+
+=== MermaidJS API
+
+To use CDP to render Mermaid diagrams,
+we'll be delegating the rendering to a JavaScript interpreter
+running inside the headless Chrome process.
+
+The following bits of the MermaidJS API are relevant:
+
+[,typescript]
+----
+mermaid.initialize({
+  startOnLoad: bool, // we want this to be false
+  theme: string,
+})
+
+mermaid.render(
+  name: string,
+  src: string,
+): Promise<{svg: string}>
+----
+
+> **NOTE**: Theme is specified once at initialization.
+
+== Constraints
+
+The following base constraints make sense for CDP-based rendering.
+
+* We should spawn a long-running browser process
+  that can be re-used between render invocations.
+* The dependency on the CDP library should be optional.
+  This will keep the dependency footprint small
+  for users of client-side rendering and Mermaid CLI-based rendering.
+
+The dependency constraint means that
+the root goldmark/mermaid package should not import the CDP library directly.
+The functionality should be implemented in an independent sub-package
+that exports a type satisfying an interface defined in the outer package.
+
+== Design
+
+`ServerRenderer` will provide the injection point
+where the CLI-based and CDP-based renderers will be plugged in.
+
+The following interface will be defined for that purpose.
+
+----
+type CompileRequest struct {
+  Source string
+}
+
+type CompileRequest struct {
+  SVG string
+}
+
+type Compiler interface {
+  Compile(context.Context, *CompileRequest) (*CompileResponse, error)
+}
+----
+
+Two implementations will be provided:
+
+* a CLI-based version in the root mermaid package
+* a CDP-based version in a `mermaidcdp` sub-package
+
+----
+// go.abhg.dev/goldmark/mermaid
+type CLICompiler struct{ /* ... */ }
+
+func (*CLICompiler) Compile(context.Context, *CompileRequest) (*CompileResponse, error)
+
+// go.abhg.dev/goldmark/mermaid/mermaidcdp
+type Compiler struct{ /* ... */ }
+
+func (*Compiler) Compile(context.Context, *CompileRequest) (*CompileResponse, error)
+----
+
+These will plug into the `ServerRenderer` type under a new `Compiler` field.
+This field will replace
+the existing `MMDC` and `Theme` fields of `ServerRenderer`.
+
+[,diff]
+----
+ type ServerRenderer struct {
+-  MMDC     MMDC
+-  Theme    string
++  Compiler Compiler
+   // ...
+ }
+----
+
+For convenience, if the `ServerRenderer` was chosen
+and a `Compiler` was not provided, the CLI-based compiler will be used.
+
+=== CLI-based rendering
+
+The `CLICompiler` will borrow fields that were previously on `ServerRenderer`:
+`MMDC` and `Theme`.
+
+For clarity, the `MMDC` field and type will be renamed to `CLI` --
+making its association with the CLI-based compiler explicit.
+We can also take this opportunity to use `CommandContext` on the interface,
+instead of plain `Command`.
+
+----
+type CLI interface {
+  CommandContext(context.Context, args ...string) *exec.Cmd
+}
+
+type CLICompiler struct {
+  CLI   CLI
+  Theme string
+}
+----
+
+The name `CLI` was previously taken by the default implementation of `MMDC`.
+This will be made private to make room for the new `CLI` type,
+and the name `MMDC` will be re-used for a constructor function.
+
+[,diff]
+----
+-type CLI struct{ /* ... */ }
++type mmdcCLI struct{ /* ... */ }
+
++func MMDC(path string) CLI
+----
+
+In short,
+
+[cols="1a,1a,3a"]
+|====
+| Before | After | Purpose
+
+| `MMDC` | `CLI` | Interface to build an `exec.Cmd` to run the Mermaid CLI
+| `CLI` | `mmdcCLI` | Default implementation of the interface
+| n/a   | `MMDC` | Constructor function for the default implementation
+|====
+
+=== CDP-based rendering
+
+The CDP-based renderer will be implemented in a new `mermaidcdp` package
+that will export a `Compiler` struct.
+This will be built with a `New` function that accepts a `Config` struct.
+
+----
+package mermaidcdp
+
+type Compiler struct {
+  // ...
+}
+
+var _ mermaid.Compiler = (*Compiler)(nil)
+
+func New(*Config) (*Compiler, error)
+----
+
+It'll have a `Close` method that will clean up the browser process.
+Until this is called, the `Compiler` may be re-used across render invocations.
+
+----
+func (*Compiler) Close() error
+----
+
+The `Compiler` needs the following inputs:
+
+* a copy of the MermaidJS source code to evaluate in the browser
+* the theme to use for rendering (for `mermaid.initialize`)
+
+Therefore, the `Config` struct will look as follows.
+
+----
+type Config struct {
+  JSSource string
+  Theme    string
+}
+----
+
+=== MermaidJS source code
+
+As mentioned previously, the CDP-based renderer
+needs a copy of the MermaidJS source code.
+The recommended approach will be for users to download it
+and embed it into their program with `go:embed`.
+
+As a convenience, we'll provide a function to download it on demand from a CDN.
+
+----
+package mermaidcdp
+
+func DownloadJSSource(..., version string) (string, error)
+----
+
+=== Extender
+
+The `mermaid.Extender` is intended to be the most convenient way
+of installing this functionality into a `goldmark.Mermaid`.
+Therefore, its `CLI` (née `MMDC`) and `Theme` fields will be retained --
+unlike `ServerRenderer` type.
+
+A new `Compiler` field will be added to the `Extender` type
+to allow users to plug in the CDP-based compiler.
+
+[,diff]
+----
+ type Extender struct {
+-  MMDC     MMDC
++  CLI      CLI
+   Theme    string
++  Compiler Compiler
+    // ...
+  }
+----
+
+== Example
+
+Putting it all together, example usage will look as follows.
+
+.Using the CLI compiler
+----
+&mermaid.Extender{
+  Compiler: &mermaid.CLICompiler{
+    Theme: "default",
+  },
+}
+----
+
+.Using the CDP compiler
+----
+//go:embed mermaid.min.js
+var mermaidJS string
+
+comp, err := mermaidcdp.New(&mermaidcdp.Config{
+  MermaidJS: mermaidJS,
+  Theme:     "default",
+})
+if err != nil {
+  // ...
+}
+defer comp.Close()
+
+&mermaid.Extender{
+  Compiler: comp,
+}
+----

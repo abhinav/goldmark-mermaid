@@ -19,7 +19,7 @@ type ClientRenderer struct {
 	// URL of Mermaid Javascript to be included in the page.
 	//
 	// Defaults to the latest version available on cdn.jsdelivr.net.
-	MermaidJS string
+	MermaidURL string
 
 	// ContainerTag is the name of the HTML tag to use for the container
 	// that holds the Mermaid diagram.
@@ -64,7 +64,7 @@ func (r *ClientRenderer) Render(w util.BufWriter, src []byte, node ast.Node, ent
 
 // RenderScript renders mermaid.ScriptBlock nodes.
 func (r *ClientRenderer) RenderScript(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
-	mermaidJS := r.MermaidJS
+	mermaidJS := r.MermaidURL
 	if len(mermaidJS) == 0 {
 		mermaidJS = _defaultMermaidJS
 	}

@@ -6,11 +6,12 @@ type RenderMode int
 //go:generate stringer -type RenderMode -trimprefix RenderMode
 
 const (
-	// RenderModeAuto picks the renderer
-	// based on the availability of the Mermaid CLI.
+	// RenderModeAuto picks the renderer automatically.
 	//
-	// If the 'mmdc' CLI is available on $PATH,
+	// If a server-side compiler or CLI is specified,
+	// or if the 'mmdc' CLI is available on $PATH,
 	// this will generate diagrams server-side.
+	//
 	// Otherwise, it'll generate them client-side.
 	RenderModeAuto RenderMode = iota
 

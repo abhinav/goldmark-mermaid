@@ -2,6 +2,7 @@ package exectest
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -19,7 +20,7 @@ func TestCommandSuccess(t *testing.T) {
 
 	cmd := Act(t, func() {
 		fmt.Println("hello world")
-	}).Command()
+	}).CommandContext(context.Background())
 
 	out, err := cmd.Output()
 	require.NoError(t, err)
@@ -35,7 +36,7 @@ func TestCommandNonZero(t *testing.T) {
 	cmd := Act(t, func() {
 		fmt.Fprintln(os.Stderr, "great sadness")
 		os.Exit(1)
-	}).Command()
+	}).CommandContext(context.Background())
 
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
@@ -63,7 +64,7 @@ func TestCommandArgs(t *testing.T) {
 		// Randomly generated argument to ensure that code
 		"-random", strconv.Itoa(rand.Int()),
 	}
-	cmd := actor.Command(args...)
+	cmd := actor.CommandContext(context.Background(), args...)
 
 	out, err := cmd.Output()
 	require.NoError(t, err)
