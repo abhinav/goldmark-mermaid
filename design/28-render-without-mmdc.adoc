@@ -1,4 +1,5 @@
 = Rendering Mermaid diagrams with Chrome DevTools Protocol
+2023-11-03
 :toc: preamble
 :source-language: go
 
