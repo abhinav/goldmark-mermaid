@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -12,6 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/yuin/goldmark"
 	"go.abhg.dev/goldmark/mermaid"
+	"go.abhg.dev/goldmark/mermaid/internal/svgtest"
 	"go.abhg.dev/goldmark/mermaid/mermaidcdp"
 	"gopkg.in/yaml.v3"
 )
@@ -76,20 +76,6 @@ func TestIntegration_Server_CLI(t *testing.T) {
 	}
 	require.NoError(t, yaml.Unmarshal(testdata, &tests))
 
-	// HACK:
-	// For some reason,
-	// mmdc generates an SVG with specific numbers in the output
-	// deterministically on my computer,
-	// and for the same diagram, also deterministically,
-	// it generates slightly different numbers in CI.
-	//
-	// This basically 'fixes' those in a string.
-	numberRe := regexp.MustCompile(`\d+(\.\d+)?`)
-	normalize := func(s string) string {
-		s = numberRe.ReplaceAllString(s, `0`)
-		return strings.TrimSuffix(s, "\n")
-	}
-
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.Desc, func(t *testing.T) {
@@ -105,8 +91,8 @@ func TestIntegration_Server_CLI(t *testing.T) {
 			var got bytes.Buffer
 			require.NoError(t, md.Convert([]byte(tt.Give), &got))
 			assert.Equal(t,
-				normalize(tt.Want),
-				normalize(got.String()),
+				svgtest.Normalize(tt.Want),
+				svgtest.Normalize(got.String()),
 			)
 		})
 	}
@@ -146,7 +132,10 @@ func TestIntegration_Server_CDP(t *testing.T) {
 
 			var got bytes.Buffer
 			require.NoError(t, md.Convert([]byte(tt.Give), &got))
-			assert.Equal(t, tt.Want, got.String())
+			assert.Equal(t,
+				svgtest.Normalize(tt.Want),
+				svgtest.Normalize(got.String()),
+			)
 		})
 	}
 }

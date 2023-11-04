@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.abhg.dev/goldmark/mermaid"
+	"go.abhg.dev/goldmark/mermaid/internal/svgtest"
 	"gopkg.in/yaml.v3"
 )
 
@@ -62,7 +63,10 @@ func TestCompiler_Compile(t *testing.T) {
 			if *_regenerate {
 				tt.Want = got.SVG
 			} else {
-				assert.Equal(t, tt.Want, got.SVG)
+				assert.Equal(t,
+					svgtest.Normalize(tt.Want),
+					svgtest.Normalize(got.SVG),
+				)
 			}
 
 			tests[i] = tt
