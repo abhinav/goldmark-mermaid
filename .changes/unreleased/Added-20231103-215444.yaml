@@ -1,4 +1,0 @@
-kind: Added
-body: Add mermaidcdp subpackage. This implements a Compiler for the ServerRenderer
-  backed by a long-running headless browser process.
-time: 2023-11-03T21:54:44.954944766-07:00
