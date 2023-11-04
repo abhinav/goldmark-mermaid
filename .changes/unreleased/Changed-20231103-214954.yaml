@@ -1,4 +1,0 @@
-kind: Changed
-body: Replace the `CLI` struct, which implemented the `MMDC` interface with a `CLI`
-  interface and a `func MMDC` constructor for it.
-time: 2023-11-03T21:49:54.388916287-07:00
