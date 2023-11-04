@@ -1,20 +1,32 @@
 # goldmark-mermaid
 
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Rendering methods](#rendering-methods)
+- [License](#license)
+
+## Introduction
+
 [![Go Reference](https://pkg.go.dev/badge/go.abhg.dev/goldmark/mermaid.svg)](https://pkg.go.dev/go.abhg.dev/goldmark/mermaid)
-[![Go](https://github.com/abhinav/goldmark-mermaid/actions/workflows/go.yml/badge.svg)](https://github.com/abhinav/goldmark-mermaid/actions/workflows/go.yml)
+[![CI](https://github.com/abhinav/goldmark-mermaid/actions/workflows/ci.yml/badge.svg)](https://github.com/abhinav/goldmark-mermaid/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/abhinav/goldmark-mermaid/branch/main/graph/badge.svg?token=W98KYF8SPE)](https://codecov.io/gh/abhinav/goldmark-mermaid)
 
-goldmark-mermaid is an extension for the [goldmark] Markdown parser that adds
-support for [Mermaid] diagrams.
-
-  [goldmark]: http://github.com/yuin/goldmark
-  [Mermaid]: https://mermaid-js.github.io/mermaid/
+goldmark-mermaid is an extension for the [goldmark](http://github.com/yuin/goldmark) Markdown parser that adds
+support for [Mermaid](https://mermaid-js.github.io/mermaid/) diagrams.
 
 **Demo**:
 A web-based demonstration of the extension is available at
-<https://abhinav.github.io/goldmark-mermaid/demo/>.
+https://abhinav.github.io/goldmark-mermaid/demo/.
+
+### Features
+
+- Client-side rendering by injecting JavaScript
+- Server-side rendering with the Mermaid CLI
 
 ## Installation
+
+Install the latest version of the library with Go modules.
 
 ```bash
 go get go.abhg.dev/goldmark/mermaid@latest
@@ -29,9 +41,7 @@ import "go.abhg.dev/goldmark/mermaid"
 ```
 
 Then include the `mermaid.Extender` in the list of extensions you build your
-[`goldmark.Markdown`] with.
-
-  [`goldmark.Markdown`]: https://pkg.go.dev/github.com/yuin/goldmark#Markdown
+[`goldmark.Markdown`](https://pkg.go.dev/github.com/yuin/goldmark#Markdown) with.
 
 ```go
 goldmark.New(
@@ -45,17 +55,19 @@ goldmark.New(
 
 The package supports Mermaid diagrams inside fenced code blocks with the language `mermaid`. For example,
 
-    ```mermaid
-    graph TD;
-        A-->B;
-        A-->C;
-        B-->D;
-        C-->D;
-    ```
+<pre>
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+</pre>
 
 When you render the Markdown as HTML, these will be rendered into diagrams.
 
-## Rendering diagrams
+## Rendering methods
 
 Mermaid diagrams can be rendered
 at the time the file is processed ("server-side")
@@ -82,3 +94,7 @@ goldmark.New(
 
 By default, goldmark-mermaid will pick between the two,
 based on whether it was able to find the `mmdc` executable on your `$PATH`.
+
+## License
+
+This software is made available under the MIT license.
