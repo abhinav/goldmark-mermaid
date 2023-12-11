@@ -32,7 +32,7 @@ jobs:
           # or the tag if this fired from the push event.
           ref: ${{ inputs.head || github.ref }}
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: stable
           cache: true
