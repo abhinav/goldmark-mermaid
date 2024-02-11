@@ -14,7 +14,7 @@ func TestServerRenderer_Simple(t *testing.T) {
 	t.Parallel()
 
 	compiler := compilerStub{
-		CompileF: func(ctx context.Context, req *CompileRequest) (*CompileResponse, error) {
+		CompileF: func(_ context.Context, req *CompileRequest) (*CompileResponse, error) {
 			return &CompileResponse{
 				SVG: "<svg>" + req.Source + "</svg>",
 			}, nil
@@ -36,7 +36,7 @@ func TestServerRenderer_ContainerTag(t *testing.T) {
 	t.Parallel()
 
 	compiler := compilerStub{
-		CompileF: func(ctx context.Context, req *CompileRequest) (*CompileResponse, error) {
+		CompileF: func(_ context.Context, req *CompileRequest) (*CompileResponse, error) {
 			return &CompileResponse{
 				SVG: "<svg>" + req.Source + "</svg>",
 			}, nil
