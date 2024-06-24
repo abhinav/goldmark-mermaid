@@ -5,6 +5,6 @@ go 1.20
 replace go.abhg.dev/goldmark/mermaid => ../
 
 require (
-	github.com/yuin/goldmark v1.7.2
+	github.com/yuin/goldmark v1.7.3
 	go.abhg.dev/goldmark/mermaid v0.3.0
 )
