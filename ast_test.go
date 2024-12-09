@@ -10,7 +10,7 @@ import (
 	"github.com/yuin/goldmark/text"
 )
 
-func hijackStdout(t testing.TB) (path string, close func() error) {
+func hijackStdout(t testing.TB) (path string, restore func() error) {
 	stdout := os.Stdout
 	t.Cleanup(func() {
 		os.Stdout = stdout
