@@ -36,20 +36,6 @@ jobs:
       uses: jdx/mise-action@v2
       with:
         cache_key_prefix: mise-v0-${{ matrix.mise-env }}
-
-    - name: Set up mmdc
-      run: |
-        npm install
-        # Hack to work around
-        # https://github.com/mermaid-js/mermaid-cli/issues/730
-        patch node_modules/@mermaid-js/mermaid-cli/src/index.js <<EOF
-        186c186,187
-        <     headless: 'shell'
-        ---
-        >     headless: 'shell',
-        >     args: ['--no-sandbox']
-        EOF
-
     - name: Test
       run: mise run test:cover -race
     - name: Upload coverage
