@@ -32,6 +32,11 @@ type Config struct {
 	// Values include "dark", "default", "forest", and "neutral".
 	// See MermaidJS documentation for a full list.
 	Theme string
+
+	// NoSandbox disables the sandbox for the headless browser.
+	//
+	// Use this with care.
+	NoSandbox bool
 }
 
 // Configuration for mermaid.initialize.
@@ -65,10 +70,27 @@ func New(cfg *Config) (_ *Compiler, err error) {
 				"use DownloadJSSource if you don't have it")
 	}
 
+	var ctxOpts []chromedp.ContextOption
+
+	ctx := context.Background()
+	if cfg.NoSandbox {
+		execOpts := make([]chromedp.ExecAllocatorOption, 0, len(chromedp.DefaultExecAllocatorOptions)+1)
+		execOpts = append(execOpts, chromedp.DefaultExecAllocatorOptions[:]...)
+		execOpts = append(execOpts, chromedp.NoSandbox)
+
+		var cancel context.CancelFunc
+		ctx, cancel = chromedp.NewExecAllocator(ctx, execOpts...)
+		defer func(cancel context.CancelFunc) {
+			if err != nil {
+				cancel() // kill it if this function fails
+			}
+		}(cancel)
+	}
+
 	// The cdp context should NOT be bound to a context with a limited lifetime
 	// because that'll kill the headless browser when the context finishes.
 	// Instead, we'll use the background context.
-	ctx, cancel := chromedp.NewContext(context.Background())
+	ctx, cancel := chromedp.NewContext(ctx, ctxOpts...)
 	defer func(cancel context.CancelFunc) {
 		if err != nil {
 			cancel() // kill it if this function fails

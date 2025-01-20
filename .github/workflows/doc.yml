@@ -31,15 +31,12 @@ jobs:
           # Check out head specified by workflow_dispatch,
           # or the tag if this fired from the push event.
           ref: ${{ inputs.head || github.ref }}
-      - name: Setup Go
-        uses: actions/setup-go@v5
+      - name: Set up mise
+        uses: jdx/mise-action@v2
         with:
-          go-version: stable
-          cache: true
-      - name: Install doc2go
-        run: go install go.abhg.dev/doc2go@latest
+          cache_key_prefix: mise-v0-stable
       - name: Generate API reference
-        run: doc2go -home go.abhg.dev/goldmark/mermaid  ./...
+        run: doc2go -home go.abhg.dev/goldmark/mermaid ./...
       - name: Build demo website
         run: |
           make -C demo

@@ -24,7 +24,8 @@ func TestCompiler_Compile(t *testing.T) {
 	t.Parallel()
 
 	c, err := New(&Config{
-		JSSource: loadMermaidJS(t),
+		JSSource:  loadMermaidJS(t),
+		NoSandbox: true,
 	})
 
 	require.NoError(t, err)
@@ -78,7 +79,8 @@ func TestCompiler_Compile_closed(t *testing.T) {
 	t.Parallel()
 
 	c, err := New(&Config{
-		JSSource: loadMermaidJS(t),
+		JSSource:  loadMermaidJS(t),
+		NoSandbox: true,
 	})
 
 	require.NoError(t, err)

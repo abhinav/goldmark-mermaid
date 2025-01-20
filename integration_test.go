@@ -100,7 +100,8 @@ func TestIntegration_Server_CLI(t *testing.T) {
 
 func TestIntegration_Server_CDP(t *testing.T) {
 	cdpCompiler, err := mermaidcdp.New(&mermaidcdp.Config{
-		JSSource: loadMermaidJS(t),
+		JSSource:  loadMermaidJS(t),
+		NoSandbox: true,
 	})
 	require.NoError(t, err)
 	t.Cleanup(func() {

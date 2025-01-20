@@ -14,43 +14,43 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       name: Check out repository
-    - uses: actions/setup-go@v5
-      name: Set up Go
+    - name: Set up mise
+      uses: jdx/mise-action@v2
       with:
-        go-version: 1.22.x
-        cache: false
-    - uses: golangci/golangci-lint-action@v6
-      name: Install golangci-lint
-      with:
-        version: latest
-        args: --help
-    - run: make lint
-      name: Lint
+        cache_key_prefix: mise-v0-stable
+    - run: mise run lint
 
   test:
-    name: Test / Go ${{ matrix.go }}
+    name: Test/ Go (${{ matrix.mise-env }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: ["1.21.x", "1.22.x"]
+        mise-env: ["stable", "oldstable"]
+
+    env:
+      MISE_ENV: ${{ matrix.mise-env }}
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Go
-      uses: actions/setup-go@v5
+    - name: Set up mise
+      uses: jdx/mise-action@v2
       with:
-        go-version: ${{ matrix.go }}
-        cache: true
+        cache_key_prefix: mise-v0-${{ matrix.mise-env }}
 
-    - name: Set up Node
-      uses: actions/setup-node@v4
-      with:
-        cache: 'yarn'
-        cache-dependency-path: yarn.lock
-    - name: Download dependencies
-      run: yarn install
+    - name: Set up mmdc
+      run: |
+        npm install
+        # Hack to work around
+        # https://github.com/mermaid-js/mermaid-cli/issues/730
+        patch node_modules/@mermaid-js/mermaid-cli/src/index.js <<EOF
+        186c186,187
+        <     headless: 'shell'
+        ---
+        >     headless: 'shell',
+        >     args: ['--no-sandbox']
+        EOF
 
     - name: Test
-      run: make cover
+      run: mise run test:cover -race
     - name: Upload coverage
       uses: codecov/codecov-action@v5

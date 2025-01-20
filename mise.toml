@@ -1,0 +1,52 @@
+[env]
+GOBIN = "{{ config_root }}/bin"
+_.path = ["{{ config_root }}/bin"]
+
+[tools]
+"ubi:abhinav/doc2go" = "latest"
+"ubi:golangci/golangci-lint" = "latest"
+"ubi:miniscruff/changie" = "latest"
+go = "1.23.5"
+node = "lts"
+
+[tasks.build]
+run = "go build ./..."
+description = "Build the project"
+
+[tasks.test]
+description = "Run tests"
+run = "go test ./..."
+
+[tasks."test:cover"]
+description = "Run tests with coverage"
+run = ["go test -coverprofile=cover.out -coverpkg=./... ./..."]
+
+[tasks."test:cover:html"]
+description = "Run tests with coverage and generate HTML report"
+depends = ["cover"]
+run = "go tool cover -html=cover.out -o cover.html"
+
+[tasks.lint]
+description = "Run all linters"
+depends = ["lint:*"]
+
+[tasks."lint:tidy"]
+description = "Ensure go.mod is tidy"
+run = "go mod tidy -diff"
+
+[tasks."lint:golangci"]
+description = "Run golangci-lint"
+run = "golangci-lint run"
+
+[tasks."lint:generate"]
+description = "Verify generated code is up-to-date"
+depends = ["generate"]
+run = "git diff --exit-code"
+
+[tasks.generate]
+description = "Run all code generators"
+depends = ["tools:*"]
+run = "go generate ./..."
+
+[tasks."tools:golint"]
+run = "go -C tools install golang.org/x/tools/cmd/stringer"
