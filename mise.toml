@@ -4,9 +4,9 @@ _.path = ["{{ config_root }}/bin"]
 
 [tools]
 "ubi:abhinav/doc2go" = "latest"
-"ubi:golangci/golangci-lint" = "latest"
+"aqua:golangci/golangci-lint" = "latest"
 "ubi:miniscruff/changie" = "latest"
-go = "1.23.6"
+go = "latest"
 node = "lts"
 
 [tasks.build]
