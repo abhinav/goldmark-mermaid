@@ -4,7 +4,7 @@ go 1.23
 
 require (
 	github.com/chromedp/cdproto v0.0.0-20250307225615-b9fffb6d31ad
-	github.com/chromedp/chromedp v0.13.0
+	github.com/chromedp/chromedp v0.13.1
 	github.com/stretchr/testify v1.10.0
 	github.com/yuin/goldmark v1.7.8
 	gopkg.in/yaml.v3 v3.0.1
