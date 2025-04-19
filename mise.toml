@@ -1,6 +1,6 @@
 [env]
 GOBIN = "{{ config_root }}/bin"
-_.path = ["{{ config_root }}/bin"]
+_.path = ["bin"]
 
 [tools]
 "ubi:abhinav/doc2go" = "latest"
@@ -15,16 +15,14 @@ description = "Build the project"
 
 [tasks.test]
 description = "Run tests"
-run = "go test ./..."
+run = "go test -race ./..."
 
-[tasks."test:cover"]
+[tasks.cover]
 description = "Run tests with coverage"
-run = ["go test -coverprofile=cover.out -coverpkg=./... ./..."]
-
-[tasks."test:cover:html"]
-description = "Run tests with coverage and generate HTML report"
-depends = ["cover"]
-run = "go tool cover -html=cover.out -o cover.html"
+run = [
+    "go test -race -coverprofile=cover.out -coverpkg=./... ./...",
+    "go tool cover -html=cover.out -o cover.html"
+]
 
 [tasks.lint]
 description = "Run all linters"
@@ -45,8 +43,8 @@ run = "git diff --exit-code"
 
 [tasks.generate]
 description = "Run all code generators"
-depends = ["tools:*"]
+depends = ["tools"]
 run = "go generate ./..."
 
-[tasks."tools:golint"]
-run = "go -C tools install golang.org/x/tools/cmd/stringer"
+[tasks.tools]
+run = "go install tool"
