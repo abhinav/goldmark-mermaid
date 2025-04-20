@@ -5,10 +5,10 @@ go 1.23.0
 toolchain go1.24.2
 
 require (
-	github.com/chromedp/cdproto v0.0.0-20250319231242-a755498943c8
-	github.com/chromedp/chromedp v0.13.1
+	github.com/chromedp/cdproto v0.0.0-20250403032234-65de8f5d025b
+	github.com/chromedp/chromedp v0.13.6
 	github.com/stretchr/testify v1.10.0
-	github.com/yuin/goldmark v1.7.8
+	github.com/yuin/goldmark v1.7.10
 	gopkg.in/yaml.v3 v3.0.1
 )
 
