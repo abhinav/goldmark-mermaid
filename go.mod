@@ -8,7 +8,7 @@ require (
 	github.com/chromedp/cdproto v0.0.0-20250509201441-70372ae9ef75
 	github.com/chromedp/chromedp v0.13.6
 	github.com/stretchr/testify v1.10.0
-	github.com/yuin/goldmark v1.7.11
+	github.com/yuin/goldmark v1.7.12
 	gopkg.in/yaml.v3 v3.0.1
 )
 
