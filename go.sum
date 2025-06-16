@@ -1,5 +1,5 @@
-github.com/chromedp/cdproto v0.0.0-20250530212709-4dcc110a7b92 h1:1jyXicOJQpWKfnyKWxixyW+00A7DGmX0iatES8N2jng=
-github.com/chromedp/cdproto v0.0.0-20250530212709-4dcc110a7b92/go.mod h1:NItd7aLkcfOA/dcMXvl8p1u+lQqioRMq/SqDp71Pb/k=
+github.com/chromedp/cdproto v0.0.0-20250615221225-2454e98bdb89 h1:4FnTGgFvRYSM8nYKK8KCZ5Kd9/6SjH/2LrksRHi+1S4=
+github.com/chromedp/cdproto v0.0.0-20250615221225-2454e98bdb89/go.mod h1:NItd7aLkcfOA/dcMXvl8p1u+lQqioRMq/SqDp71Pb/k=
 github.com/chromedp/chromedp v0.13.6 h1:xlNunMyzS5bu3r/QKrb3fzX6ow3WBQ6oao+J65PGZxk=
 github.com/chromedp/chromedp v0.13.6/go.mod h1:h8GPP6ZtLMLsU8zFbTcb7ZDGCvCy8j/vRoFmRltQx9A=
 github.com/chromedp/sysutil v1.1.0 h1:PUFNv5EcprjqXZD9nJb9b/c9ibAbxiYo4exNWZyipwM=
