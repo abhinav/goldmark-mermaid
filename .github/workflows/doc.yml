@@ -26,13 +26,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # Check out head specified by workflow_dispatch,
           # or the tag if this fired from the push event.
           ref: ${{ inputs.head || github.ref }}
       - name: Set up mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v3
         with:
           cache_key_prefix: mise-v0-stable
       - name: Generate API reference
