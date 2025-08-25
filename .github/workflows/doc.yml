@@ -42,7 +42,7 @@ jobs:
           make -C demo
           cp -r demo/static _site/demo
       - name: Upload pages
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
 
   publish:
     name: Publish website
