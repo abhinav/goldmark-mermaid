@@ -2,8 +2,6 @@ module go.abhg.dev/goldmark/mermaid
 
 go 1.24
 
-toolchain go1.25.1
-
 require (
 	github.com/chromedp/cdproto v0.0.0-20250803210736-d308e07a266d
 	github.com/chromedp/chromedp v0.14.1
