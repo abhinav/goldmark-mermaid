@@ -18,8 +18,9 @@ const _RenderMode_name = "AutoClientServer"
 var _RenderMode_index = [...]uint8{0, 4, 10, 16}
 
 func (i RenderMode) String() string {
-	if i < 0 || i >= RenderMode(len(_RenderMode_index)-1) {
+	idx := int(i) - 0
+	if i < 0 || idx >= len(_RenderMode_index)-1 {
 		return "RenderMode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _RenderMode_name[_RenderMode_index[i]:_RenderMode_index[i+1]]
+	return _RenderMode_name[_RenderMode_index[idx]:_RenderMode_index[idx+1]]
 }

@@ -1,8 +1,8 @@
 module go.abhg.dev/goldmark/mermaid/demo
 
-go 1.24
+go 1.24.0
 
-toolchain go1.25.1
+toolchain go1.25.3
 
 replace go.abhg.dev/goldmark/mermaid => ../
 
