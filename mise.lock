@@ -1,4 +1,4 @@
-[tools."aqua:golangci/golangci-lint"]
+[[tools."aqua:golangci/golangci-lint"]]
 version = "2.4.0"
 backend = "aqua:golangci/golangci-lint"
 
@@ -7,7 +7,7 @@ checksum = "sha256:cd4dd53fa09b6646baff5fd22b8c64d91db02c21c7496df27992d75d34fee
 size = 13542526
 url = "https://github.com/golangci/golangci-lint/releases/download/v2.4.0/golangci-lint-2.4.0-darwin-arm64.tar.gz"
 
-[tools.go]
+[[tools.go]]
 version = "1.25.0"
 backend = "core:go"
 
@@ -16,7 +16,7 @@ checksum = "sha256:544932844156d8172f7a28f77f2ac9c15a23046698b6243f633b0a0b00c07
 size = 57906112
 url = "https://dl.google.com/go/go1.25.0.darwin-arm64.tar.gz"
 
-[tools.node]
+[[tools.node]]
 version = "22.18.0"
 backend = "core:node"
 
@@ -25,11 +25,14 @@ checksum = "sha256:2c12913cba67af77ded8a399df3fd91c2e7f8628c7079da40bb9ff33bf00d
 size = 47696084
 url = "https://nodejs.org/dist/v22.18.0/node-v22.18.0-darwin-arm64.tar.gz"
 
-[tools."ubi:abhinav/doc2go"]
+[[tools."ubi:abhinav/doc2go"]]
 version = "0.8.1"
 backend = "ubi:abhinav/doc2go"
 
-[tools."ubi:miniscruff/changie"]
+[tools."ubi:abhinav/doc2go".platforms.macos-arm64-doc2go]
+checksum = "blake3:79973fb92b32a9a0af96630bd95a1ec6d63d4b98b016152015a318382e5f81a7"
+
+[[tools."ubi:miniscruff/changie"]]
 version = "1.22.1"
 backend = "ubi:miniscruff/changie"
 
