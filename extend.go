@@ -60,7 +60,12 @@ type Extender struct {
 	//
 	// Values include "dark", "default", "forest", and "neutral".
 	// See MermaidJS documentation for a full list.
-	Theme string
+	Theme *string
+
+	// StartOnLoad specifies whether to start rendering diagrams
+	// as soon as the page is loaded. This applies to client-side rendering only.
+	// Defaults to true.
+	StartOnLoad *bool
 
 	execLookPath func(string) (string, error) // == exec.LookPath
 }
@@ -100,10 +105,19 @@ func (e *Extender) renderer() (RenderMode, renderer.NodeRenderer) {
 
 	switch mode {
 	case RenderModeClient:
+		opts := initializationOptions{
+			StartOnLoad: true,
+		}
+		if e.StartOnLoad != nil {
+			opts.StartOnLoad = *e.StartOnLoad
+		}
+		if e.Theme != nil {
+			opts.Theme = *e.Theme
+		}
 		return RenderModeClient, &ClientRenderer{
-			MermaidURL:   e.MermaidURL,
-			ContainerTag: e.ContainerTag,
-			Theme:        e.Theme,
+			MermaidURL:        e.MermaidURL,
+			ContainerTag:      e.ContainerTag,
+			initializeOptions: opts,
 		}
 	case RenderModeServer:
 		return RenderModeServer, &ServerRenderer{
@@ -128,8 +142,13 @@ func (e *Extender) compiler() (c Compiler, ok bool) {
 		return e.Compiler, true
 	}
 
+	theme := ""
+	if e.Theme != nil {
+		theme = *e.Theme
+	}
+
 	if e.CLI != nil {
-		return &CLICompiler{CLI: e.CLI, Theme: e.Theme}, true
+		return &CLICompiler{CLI: e.CLI, Theme: theme}, true
 	}
 
 	lookPath := exec.LookPath
@@ -143,5 +162,5 @@ func (e *Extender) compiler() (c Compiler, ok bool) {
 	}
 
 	cli := &mmdcCLI{Path: mmdcPath}
-	return &CLICompiler{CLI: cli, Theme: e.Theme}, true
+	return &CLICompiler{CLI: cli, Theme: theme}, true
 }

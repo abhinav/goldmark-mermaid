@@ -122,6 +122,25 @@ func TestRenderer_Script(t *testing.T) {
 	}
 }
 
+func TestRenderer_Script_withOptions(t *testing.T) {
+	t.Parallel()
+
+	r := buildNodeRenderer(&ClientRenderer{
+		MermaidURL: "mermaid.js",
+		initializeOptions: initializationOptions{
+			StartOnLoad: false,
+			Theme:       "dark",
+		},
+	})
+
+	var buff bytes.Buffer
+	assert.NoError(t,
+		r.Render(&buff, nil /* src */, &ScriptBlock{}))
+	assert.Equal(t,
+		`<script src="mermaid.js"></script><script>mermaid.initialize({"startOnLoad":false,"theme":"dark"});</script>`,
+		buff.String())
+}
+
 func buildNodeRenderer(r renderer.NodeRenderer) renderer.Renderer {
 	return renderer.NewRenderer(
 		renderer.WithNodeRenderers(

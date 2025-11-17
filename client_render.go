@@ -1,6 +1,7 @@
 package mermaid
 
 import (
+	"encoding/json"
 	"html/template"
 
 	"github.com/yuin/goldmark/ast"
@@ -9,6 +10,12 @@ import (
 )
 
 const _defaultMermaidJS = "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+
+// initializationOptions represents the client render mode options
+type initializationOptions struct {
+	StartOnLoad bool   `json:"startOnLoad"`
+	Theme       string `json:"theme,omitempty"`
+}
 
 // ClientRenderer renders Mermaid diagrams as HTML,
 // to be rendered into images client side.
@@ -28,8 +35,7 @@ type ClientRenderer struct {
 	// Defaults to "pre".
 	ContainerTag string
 
-	// Theme for mermaid diagrams.
-	Theme string
+	initializeOptions initializationOptions
 }
 
 // RegisterFuncs registers the renderer for Mermaid blocks with the provided
@@ -78,11 +84,14 @@ func (r *ClientRenderer) RenderScript(w util.BufWriter, _ []byte, node ast.Node,
 		_, _ = w.WriteString(mermaidJS)
 		_, _ = w.WriteString(`"></script>`)
 	} else {
-		script := "<script>mermaid.initialize({startOnLoad: true});</script>"
-		if len(r.Theme) > 0 {
-			script = "<script>mermaid.initialize({startOnLoad: true, theme: \"" + r.Theme + "\"});</script>"
+		b, err := json.Marshal(r.initializeOptions)
+		if err != nil {
+			return ast.WalkStop, err
 		}
-		_, _ = w.WriteString(script)
+
+		_, _ = w.WriteString("<script>mermaid.initialize(")
+		_, _ = w.Write(b)
+		_, _ = w.WriteString(");</script>")
 	}
 
 	return ast.WalkContinue, nil
