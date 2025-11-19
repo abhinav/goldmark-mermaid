@@ -16,7 +16,7 @@
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </pre><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+    </pre><script src="mermaid.js"></script><script>mermaid.initialize({"startOnLoad":true});</script>
 
 - desc: noscript/single block
   noscript: true
@@ -102,7 +102,7 @@
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </pre><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+    </pre><script src="mermaid.js"></script><script>mermaid.initialize({"startOnLoad":true});</script>
 
 
 - desc: noscript/multiple blocks
@@ -158,5 +158,22 @@
         A--&gt;C;
         B--&gt;D;
         C--&gt;D;
-    </div><script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>
+    </div><script src="mermaid.js"></script><script>mermaid.initialize({"startOnLoad":true});</script>
 
+- desc: theme
+  theme: dark
+  give: |
+    ```mermaid
+    graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+    ```
+  want: |
+    <pre class="mermaid">graph TD;
+        A--&gt;B;
+        A--&gt;C;
+        B--&gt;D;
+        C--&gt;D;
+    </pre><script src="mermaid.js"></script><script>mermaid.initialize({"startOnLoad":true,"theme":"dark"});</script>

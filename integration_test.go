@@ -27,6 +27,7 @@ func TestIntegration_Client(t *testing.T) {
 		NoScript bool   `yaml:"noscript"`
 		Give     string `yaml:"give"`
 		Want     string `yaml:"want"`
+		Theme    string `yaml:"theme"`
 
 		ContainerTag string `yaml:"containerTag"`
 	}
@@ -42,6 +43,7 @@ func TestIntegration_Client(t *testing.T) {
 				MermaidURL:   "mermaid.js",
 				NoScript:     tt.NoScript,
 				ContainerTag: tt.ContainerTag,
+				Theme:        tt.Theme,
 			}
 			md := goldmark.New(goldmark.WithExtensions(&ext))
 

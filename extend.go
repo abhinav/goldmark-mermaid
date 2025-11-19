@@ -58,8 +58,6 @@ type Extender struct {
 
 	// Theme for mermaid diagrams.
 	//
-	// Ignored if we're rendering diagrams client-side.
-	//
 	// Values include "dark", "default", "forest", and "neutral".
 	// See MermaidJS documentation for a full list.
 	Theme string
@@ -105,6 +103,7 @@ func (e *Extender) renderer() (RenderMode, renderer.NodeRenderer) {
 		return RenderModeClient, &ClientRenderer{
 			MermaidURL:   e.MermaidURL,
 			ContainerTag: e.ContainerTag,
+			Theme:        e.Theme,
 		}
 	case RenderModeServer:
 		return RenderModeServer, &ServerRenderer{
