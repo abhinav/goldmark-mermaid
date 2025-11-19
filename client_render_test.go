@@ -96,12 +96,12 @@ func TestRenderer_Script(t *testing.T) {
 	}{
 		{
 			desc: "default mermaid.js",
-			want: fmt.Sprintf("<script src=%q></script><script>mermaid.initialize({startOnLoad: true});</script>", _defaultMermaidJS),
+			want: fmt.Sprintf(`<script src=%q></script><script>mermaid.initialize({"startOnLoad":true});</script>`, _defaultMermaidJS),
 		},
 		{
 			desc:      "explicit mermaid.js",
 			mermaidJS: "mermaid.js",
-			want:      `<script src="mermaid.js"></script><script>mermaid.initialize({startOnLoad: true});</script>`,
+			want:      `<script src="mermaid.js"></script><script>mermaid.initialize({"startOnLoad":true});</script>`,
 		},
 	}
 
