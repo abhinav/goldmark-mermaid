@@ -11,12 +11,6 @@ import (
 
 const _defaultMermaidJS = "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
 
-// initializationOptions represents the client render mode options
-type initializationOptions struct {
-	StartOnLoad bool   `json:"startOnLoad"`
-	Theme       string `json:"theme,omitempty"`
-}
-
 // ClientRenderer renders Mermaid diagrams as HTML,
 // to be rendered into images client side.
 //
@@ -35,7 +29,11 @@ type ClientRenderer struct {
 	// Defaults to "pre".
 	ContainerTag string
 
-	initializeOptions initializationOptions
+	// Theme is the Mermaid theme to use.
+	//
+	// This is passed onto 'mermaid.initialize'
+	// as part of the client-side rendering.
+	Theme string
 }
 
 // RegisterFuncs registers the renderer for Mermaid blocks with the provided
@@ -71,6 +69,12 @@ func (r *ClientRenderer) Render(w util.BufWriter, src []byte, node ast.Node, ent
 	return ast.WalkContinue, nil
 }
 
+// initializationOptions defines options for mermaid.initialize(..).
+type initializationOptions struct {
+	StartOnLoad bool   `json:"startOnLoad"`
+	Theme       string `json:"theme,omitempty"`
+}
+
 // RenderScript renders mermaid.ScriptBlock nodes.
 func (r *ClientRenderer) RenderScript(w util.BufWriter, _ []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	mermaidJS := r.MermaidURL
@@ -84,7 +88,10 @@ func (r *ClientRenderer) RenderScript(w util.BufWriter, _ []byte, node ast.Node,
 		_, _ = w.WriteString(mermaidJS)
 		_, _ = w.WriteString(`"></script>`)
 	} else {
-		b, err := json.Marshal(r.initializeOptions)
+		b, err := json.Marshal(initializationOptions{
+			StartOnLoad: true,
+			Theme:       r.Theme,
+		})
 		if err != nil {
 			return ast.WalkStop, err
 		}
