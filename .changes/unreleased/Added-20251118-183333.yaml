@@ -1,0 +1,5 @@
+kind: Changed
+body: >-
+  Client-side rendering now supports the Theme option.
+  Set this on ClientRenderer or Extender to chnage the theme.
+time: 2025-11-18T18:33:33.770816-08:00
