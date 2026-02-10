@@ -2,6 +2,7 @@ package mermaid_test
 
 import (
 	"bytes"
+	"flag"
 	"os"
 	"path/filepath"
 	"strings"
@@ -16,9 +17,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestIntegration_Client(t *testing.T) {
-	t.Parallel()
+var updateIntegration = flag.Bool("update", false, "update integration test fixtures")
 
+func TestIntegration_Client(t *testing.T) {
 	testdata, err := os.ReadFile("testdata/client.yaml")
 	require.NoError(t, err)
 
@@ -33,11 +34,9 @@ func TestIntegration_Client(t *testing.T) {
 	}
 	require.NoError(t, yaml.Unmarshal(testdata, &tests))
 
-	for _, tt := range tests {
+	for i, tt := range tests {
 		tt := tt
 		t.Run(tt.Desc, func(t *testing.T) {
-			t.Parallel()
-
 			ext := mermaid.Extender{
 				RenderMode:   mermaid.RenderModeClient,
 				MermaidURL:   "mermaid.js",
@@ -49,17 +48,26 @@ func TestIntegration_Client(t *testing.T) {
 
 			var got bytes.Buffer
 			require.NoError(t, md.Convert([]byte(tt.Give), &got))
-			assert.Equal(t,
-				strings.TrimSuffix(tt.Want, "\n"),
-				strings.TrimSuffix(got.String(), "\n"),
-			)
+
+			if *updateIntegration {
+				tests[i].Want = got.String()
+			} else {
+				assert.Equal(t,
+					strings.TrimSuffix(tt.Want, "\n"),
+					strings.TrimSuffix(got.String(), "\n"),
+				)
+			}
 		})
+	}
+
+	if *updateIntegration {
+		data, err := yaml.Marshal(tests)
+		require.NoError(t, err)
+		require.NoError(t, os.WriteFile("testdata/client.yaml", data, 0o644))
 	}
 }
 
 func TestIntegration_Server_CLI(t *testing.T) {
-	t.Parallel()
-
 	mmdcPath := filepath.Join("node_modules", ".bin", "mmdc")
 	if _, err := os.Stat(mmdcPath); err != nil {
 		// 'yarn install' must already have been run.
@@ -78,11 +86,9 @@ func TestIntegration_Server_CLI(t *testing.T) {
 	}
 	require.NoError(t, yaml.Unmarshal(testdata, &tests))
 
-	for _, tt := range tests {
+	for i, tt := range tests {
 		tt := tt
 		t.Run(tt.Desc, func(t *testing.T) {
-			t.Parallel()
-
 			ext := mermaid.Extender{
 				CLI:          mermaid.MMDC(mmdcPath),
 				RenderMode:   mermaid.RenderModeServer,
@@ -92,11 +98,22 @@ func TestIntegration_Server_CLI(t *testing.T) {
 
 			var got bytes.Buffer
 			require.NoError(t, md.Convert([]byte(tt.Give), &got))
-			assert.Equal(t,
-				svgtest.Normalize(tt.Want),
-				svgtest.Normalize(got.String()),
-			)
+
+			if *updateIntegration {
+				tests[i].Want = got.String()
+			} else {
+				assert.Equal(t,
+					svgtest.Normalize(tt.Want),
+					svgtest.Normalize(got.String()),
+				)
+			}
 		})
+	}
+
+	if *updateIntegration {
+		data, err := yaml.Marshal(tests)
+		require.NoError(t, err)
+		require.NoError(t, os.WriteFile("testdata/server_cli.yaml", data, 0o644))
 	}
 }
 
@@ -121,11 +138,9 @@ func TestIntegration_Server_CDP(t *testing.T) {
 	}
 	require.NoError(t, yaml.Unmarshal(testdata, &tests))
 
-	for _, tt := range tests {
+	for i, tt := range tests {
 		tt := tt
 		t.Run(tt.Desc, func(t *testing.T) {
-			t.Parallel()
-
 			ext := mermaid.Extender{
 				Compiler:   cdpCompiler,
 				RenderMode: mermaid.RenderModeServer,
@@ -135,11 +150,22 @@ func TestIntegration_Server_CDP(t *testing.T) {
 
 			var got bytes.Buffer
 			require.NoError(t, md.Convert([]byte(tt.Give), &got))
-			assert.Equal(t,
-				svgtest.Normalize(tt.Want),
-				svgtest.Normalize(got.String()),
-			)
+
+			if *updateIntegration {
+				tests[i].Want = got.String()
+			} else {
+				assert.Equal(t,
+					svgtest.Normalize(tt.Want),
+					svgtest.Normalize(got.String()),
+				)
+			}
 		})
+	}
+
+	if *updateIntegration {
+		data, err := yaml.Marshal(tests)
+		require.NoError(t, err)
+		require.NoError(t, os.WriteFile("testdata/server_cdp.yaml", data, 0o644))
 	}
 }
 
