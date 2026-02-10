@@ -1,34 +1,44 @@
 [[tools."aqua:golangci/golangci-lint"]]
-version = "2.7.2"
+version = "2.8.0"
 backend = "aqua:golangci/golangci-lint"
-"platforms.linux-arm64" = { checksum = "sha256:7028e810837722683dab679fb121336cfa303fecff39dfe248e3e36bc18d941b", url = "https://github.com/golangci/golangci-lint/releases/download/v2.7.2/golangci-lint-2.7.2-linux-arm64.tar.gz"}
-"platforms.linux-x64" = { checksum = "sha256:ce46a1f1d890e7b667259f70bb236297f5cf8791a9b6b98b41b283d93b5b6e88", url = "https://github.com/golangci/golangci-lint/releases/download/v2.7.2/golangci-lint-2.7.2-linux-amd64.tar.gz"}
-"platforms.macos-arm64" = { checksum = "sha256:6ce86a00e22b3709f7b994838659c322fdc9eae09e263db50439ad4f6ec5785c", url = "https://github.com/golangci/golangci-lint/releases/download/v2.7.2/golangci-lint-2.7.2-darwin-arm64.tar.gz"}
-"platforms.macos-x64" = { checksum = "sha256:6966554840a02229a14c52641bc38c2c7a14d396f4c59ba0c7c8bb0675ca25c9", url = "https://github.com/golangci/golangci-lint/releases/download/v2.7.2/golangci-lint-2.7.2-darwin-amd64.tar.gz"}
-"platforms.windows-x64" = { checksum = "sha256:d48f456944c5850ca408feb0cac186345f0a6d8cf5dc31875c8f63d3dff5ee4c", url = "https://github.com/golangci/golangci-lint/releases/download/v2.7.2/golangci-lint-2.7.2-windows-amd64.zip"}
+"platforms.linux-arm64" = { checksum = "sha256:2a58388db8af5ab9330791cea0ebdd4100723cd05ad7185d92febaaee272ec9a", url = "https://github.com/golangci/golangci-lint/releases/download/v2.8.0/golangci-lint-2.8.0-linux-arm64.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:7048bc6b25c9515ed092c83f9fa8709ca97937ead52d9ff317a143299ee97a50", url = "https://github.com/golangci/golangci-lint/releases/download/v2.8.0/golangci-lint-2.8.0-linux-amd64.tar.gz"}
+"platforms.macos-arm64" = { checksum = "sha256:6f8979a83117e0607d4b85ff486382ef0404440bbf54f0e6f003ceab6ccf641e", url = "https://github.com/golangci/golangci-lint/releases/download/v2.8.0/golangci-lint-2.8.0-darwin-arm64.tar.gz"}
+"platforms.macos-x64" = { checksum = "sha256:164c72806d0e31ab19da4f08fff748a3fdc57e241851279b666c945ed9b91830", url = "https://github.com/golangci/golangci-lint/releases/download/v2.8.0/golangci-lint-2.8.0-darwin-amd64.tar.gz"}
+"platforms.windows-x64" = { checksum = "sha256:22428168a9406f79853bf9a198b66e88ded9faa57cf85e5d225361f457f33513", url = "https://github.com/golangci/golangci-lint/releases/download/v2.8.0/golangci-lint-2.8.0-windows-amd64.zip"}
+
+[[tools."github:abhinav/doc2go"]]
+version = "0.12.0"
+backend = "github:abhinav/doc2go"
+"platforms.linux-arm64" = { checksum = "sha256:79fad2a69bd9168f05502a03b9b9acb90b417b5d5c19f59fe932567c579ffcbc", url = "https://github.com/abhinav/doc2go/releases/download/v0.12.0/doc2go-linux-arm64.tar.gz", url_api = "https://api.github.com/repos/abhinav/doc2go/releases/assets/326119329"}
+"platforms.linux-x64" = { checksum = "sha256:a8e79cc0b93b62b076252cbf0525da1be13a45ab2864e6375c1a6f29f684499b", url = "https://github.com/abhinav/doc2go/releases/download/v0.12.0/doc2go-linux-amd64.tar.gz", url_api = "https://api.github.com/repos/abhinav/doc2go/releases/assets/326119196"}
+"platforms.macos-arm64" = { checksum = "sha256:7cb414e47a1cf03d6d2f6d014347fe48ddc46ea04d598eb95a1f841b1862fcc8", url = "https://github.com/abhinav/doc2go/releases/download/v0.12.0/doc2go-darwin-arm64.tar.gz", url_api = "https://api.github.com/repos/abhinav/doc2go/releases/assets/326119197"}
+"platforms.macos-x64" = { checksum = "sha256:44a742295ef296f33ef43cdb6612cee41f1a6330285ee1e12aba55427ffd4121", url = "https://github.com/abhinav/doc2go/releases/download/v0.12.0/doc2go-darwin-amd64.tar.gz", url_api = "https://api.github.com/repos/abhinav/doc2go/releases/assets/326119332"}
+"platforms.windows-x64" = { checksum = "sha256:74f0de539856027ffa955bd31656b7c44f183144b39652689c2e8dfb642c9a62", url = "https://github.com/abhinav/doc2go/releases/download/v0.12.0/doc2go-windows-amd64.tar.gz", url_api = "https://api.github.com/repos/abhinav/doc2go/releases/assets/326119334"}
+
+[[tools."github:miniscruff/changie"]]
+version = "1.24.0"
+backend = "github:miniscruff/changie"
+"platforms.linux-arm64" = { checksum = "sha256:0eaf34f01c24f7825614897427e42553070fb4407070a33759f82b117a6c3afc", url = "https://github.com/miniscruff/changie/releases/download/v1.24.0/changie_1.24.0_linux_arm64.tar.gz", url_api = "https://api.github.com/repos/miniscruff/changie/releases/assets/319542127"}
+"platforms.linux-x64" = { checksum = "sha256:706937c1874eb7c270d15f644d8a84a74dfa7f27778cbc8ca9cb045a0d68d9df", url = "https://github.com/miniscruff/changie/releases/download/v1.24.0/changie_1.24.0_linux_amd64.tar.gz", url_api = "https://api.github.com/repos/miniscruff/changie/releases/assets/319542133"}
+"platforms.macos-arm64" = { checksum = "sha256:cdbca27a073fc741c5ff08e9792444f459dbc5cff151ecb7118f2fdab9ea346f", url = "https://github.com/miniscruff/changie/releases/download/v1.24.0/changie_1.24.0_darwin_arm64.tar.gz", url_api = "https://api.github.com/repos/miniscruff/changie/releases/assets/319542132"}
+"platforms.macos-x64" = { checksum = "sha256:4ffd88cb50b2ad382b609318a41be81e7d29a750be7607fab7024e76cccb67fa", url = "https://github.com/miniscruff/changie/releases/download/v1.24.0/changie_1.24.0_darwin_amd64.tar.gz", url_api = "https://api.github.com/repos/miniscruff/changie/releases/assets/319542130"}
+"platforms.windows-x64" = { checksum = "sha256:4a90748c1da0179afe282599b562e75ef2cb5ce34e25d5f67e70ef20725b9e1d", url = "https://github.com/miniscruff/changie/releases/download/v1.24.0/changie_1.24.0_windows_amd64.zip", url_api = "https://api.github.com/repos/miniscruff/changie/releases/assets/319542125"}
 
 [[tools.go]]
-version = "1.25.5"
+version = "1.25.7"
 backend = "core:go"
-"platforms.linux-arm64" = { checksum = "sha256:b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9", url = "https://dl.google.com/go/go1.25.5.linux-arm64.tar.gz"}
-"platforms.linux-x64" = { checksum = "sha256:9e9b755d63b36acf30c12a9a3fc379243714c1c6d3dd72861da637f336ebb35b", url = "https://dl.google.com/go/go1.25.5.linux-amd64.tar.gz"}
-"platforms.macos-arm64" = { checksum = "sha256:bed8ebe824e3d3b27e8471d1307f803fc6ab8e1d0eb7a4ae196979bd9b801dd3", url = "https://dl.google.com/go/go1.25.5.darwin-arm64.tar.gz"}
-"platforms.macos-x64" = { checksum = "sha256:b69d51bce599e5381a94ce15263ae644ec84667a5ce23d58dc2e63e2c12a9f56", url = "https://dl.google.com/go/go1.25.5.darwin-amd64.tar.gz"}
-"platforms.windows-x64" = { checksum = "sha256:ae756cce1cb80c819b4fe01b0353807178f532211b47f72d7fa77949de054ebb", url = "https://dl.google.com/go/go1.25.5.windows-amd64.zip"}
+"platforms.linux-arm64" = { checksum = "sha256:ba611a53534135a81067240eff9508cd7e256c560edd5d8c2fef54f083c07129", url = "https://dl.google.com/go/go1.25.7.linux-arm64.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:12e6d6a191091ae27dc31f6efc630e3a3b8ba409baf3573d955b196fdf086005", url = "https://dl.google.com/go/go1.25.7.linux-amd64.tar.gz"}
+"platforms.macos-arm64" = { checksum = "sha256:ff18369ffad05c57d5bed888b660b31385f3c913670a83ef557cdfd98ea9ae1b", url = "https://dl.google.com/go/go1.25.7.darwin-arm64.tar.gz"}
+"platforms.macos-x64" = { checksum = "sha256:bf5050a2152f4053837b886e8d9640c829dbacbc3370f913351eb0904cb706f5", url = "https://dl.google.com/go/go1.25.7.darwin-amd64.tar.gz"}
+"platforms.windows-x64" = { checksum = "sha256:c75e5f4ff62d085cc0017be3ad19d5536f46825fa05db06ec468941f847e3228", url = "https://dl.google.com/go/go1.25.7.windows-amd64.zip"}
 
 [[tools.node]]
-version = "24.11.1"
+version = "24.13.0"
 backend = "core:node"
-"platforms.linux-arm64" = { checksum = "sha256:0dc93ec5c798b0d347f068db6d205d03dea9a71765e6a53922b682b91265d71f", url = "https://nodejs.org/dist/v24.11.1/node-v24.11.1-linux-arm64.tar.gz"}
-"platforms.linux-x64" = { checksum = "sha256:58a5ff5cc8f2200e458bea22e329d5c1994aa1b111d499ca46ec2411d58239ca", url = "https://nodejs.org/dist/v24.11.1/node-v24.11.1-linux-x64.tar.gz"}
-"platforms.macos-arm64" = { checksum = "sha256:b05aa3a66efe680023f930bd5af3fdbbd542794da5644ca2ad711d68cbd4dc35", url = "https://nodejs.org/dist/v24.11.1/node-v24.11.1-darwin-arm64.tar.gz"}
-"platforms.macos-x64" = { checksum = "sha256:096081b6d6fcdd3f5ba0f5f1d44a47e83037ad2e78eada26671c252fe64dd111", url = "https://nodejs.org/dist/v24.11.1/node-v24.11.1-darwin-x64.tar.gz"}
-"platforms.windows-x64" = { checksum = "sha256:5355ae6d7c49eddcfde7d34ac3486820600a831bf81dc3bdca5c8db6a9bb0e76", url = "https://nodejs.org/dist/v24.11.1/node-v24.11.1-win-x64.zip"}
-
-[[tools."ubi:abhinav/doc2go"]]
-version = "0.11.0"
-backend = "ubi:abhinav/doc2go"
-
-[[tools."ubi:miniscruff/changie"]]
-version = "1.24.0"
-backend = "ubi:miniscruff/changie"
+"platforms.linux-arm64" = { checksum = "sha256:0f6d40b94c6a2eb6b4c240ffc8b9fd3ada7ab044c177dd413c06e1ef9a63f081", url = "https://nodejs.org/dist/v24.13.0/node-v24.13.0-linux-arm64.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:6223aad1a81f9d1e7b682c59d12e2de233f7b4c37475cd40d1c89c42b737ffa8", url = "https://nodejs.org/dist/v24.13.0/node-v24.13.0-linux-x64.tar.gz"}
+"platforms.macos-arm64" = { checksum = "sha256:d595961e563fcae057d4a0fb992f175a54d97fcc4a14dc2d474d92ddeea3b9f8", url = "https://nodejs.org/dist/v24.13.0/node-v24.13.0-darwin-arm64.tar.gz"}
+"platforms.macos-x64" = { checksum = "sha256:6f03c1b48ddbe1b129a6f8038be08e0899f05f17185b4d3e4350180ab669a7f3", url = "https://nodejs.org/dist/v24.13.0/node-v24.13.0-darwin-x64.tar.gz"}
+"platforms.windows-x64" = { checksum = "sha256:ca2742695be8de44027d71b3f53a4bdb36009b95575fe1ae6f7f0b5ce091cb88", url = "https://nodejs.org/dist/v24.13.0/node-v24.13.0-win-x64.zip"}
