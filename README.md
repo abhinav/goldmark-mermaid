@@ -190,3 +190,20 @@ md.Convert(...)
 ## License
 
 This software is made available under the BSD3 license.
+
+## Mermaid Themes
+
+You can configure Mermaid themes using the available theme options.
+
+Example:
+
+```go
+goldmarkmermaid.WithTheme("dark")
+```
+
+Available themes include:
+
+- default
+- dark
+- neutral
+- forest
