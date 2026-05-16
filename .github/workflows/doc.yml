@@ -32,7 +32,7 @@ jobs:
           # or the tag if this fired from the push event.
           ref: ${{ inputs.head || github.ref }}
       - name: Set up mise
-        uses: jdx/mise-action@v3
+        uses: jdx/mise-action@v4
         with:
           cache_key_prefix: mise-v0-stable
       - name: Generate API reference
@@ -42,7 +42,7 @@ jobs:
           make -C demo
           cp -r demo/static _site/demo
       - name: Upload pages
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
 
   publish:
     name: Publish website
@@ -64,4 +64,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
