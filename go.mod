@@ -1,12 +1,12 @@
 module go.abhg.dev/goldmark/mermaid
 
-go 1.24.0
+go 1.25
 
 require (
 	github.com/chromedp/cdproto v0.0.0-20250803210736-d308e07a266d
 	github.com/chromedp/chromedp v0.14.2
 	github.com/stretchr/testify v1.11.1
-	github.com/yuin/goldmark v1.7.16
+	github.com/yuin/goldmark/v2 v2.0.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
