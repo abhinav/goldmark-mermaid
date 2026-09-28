@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/yuin/goldmark/renderer"
-	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
+	"github.com/yuin/goldmark/v2/renderer"
+	"github.com/yuin/goldmark/v2/text"
+	"github.com/yuin/goldmark/v2/util"
 )
 
 func TestRenderer_Block(t *testing.T) {
