@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/v2"
 	"go.abhg.dev/goldmark/mermaid"
 	"go.abhg.dev/goldmark/mermaid/internal/svgtest"
 	"go.abhg.dev/goldmark/mermaid/mermaidcdp"
