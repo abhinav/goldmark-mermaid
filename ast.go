@@ -1,6 +1,6 @@
 package mermaid
 
-import "github.com/yuin/goldmark/ast"
+import "github.com/yuin/goldmark/v2/ast"
 
 // Kind is the node kind of a Mermaid [Block] node.
 var Kind = ast.NewNodeKind("MermaidBlock")
