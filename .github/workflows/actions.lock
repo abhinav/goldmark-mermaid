@@ -4,17 +4,17 @@
 version: 'v0.0.3'
 workflows:
     '.github/workflows/ci.yml':
-        - 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803'
-        - 'codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac'
-        - 'jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db'
+        - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
+        - 'codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5'
+        - 'jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b'
     '.github/workflows/doc.yml':
-        - 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803'
-        - 'actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e'
-        - 'actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b'
-        - 'jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db'
+        - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
+        - 'actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346'
+        - 'actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9'
+        - 'jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b'
     '.github/workflows/stitchmd.yml':
         - 'abhinav/stitchmd-action@ae7594a69ac0b21b6df6fd4358cb448bdd14c246'
-        - 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803'
+        - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
         - 'stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c'
 dependencies:
     'abhinav/stitchmd-action@ae7594a69ac0b21b6df6fd4358cb448bdd14c246':
@@ -22,43 +22,43 @@ dependencies:
         commit: 'sha1-ae7594a69ac0b21b6df6fd4358cb448bdd14c246'
         owner_id: 41730
         repo_id: 631115631
-    'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803':
-        ref: 'v6.1.0'
-        commit: 'sha1-d23441a48e516b6c34aea4fa41551a30e30af803'
+    'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1':
+        ref: 'v7.0.1'
+        commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e':
-        ref: 'v4.0.5'
-        commit: 'sha1-d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e'
+    'actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346':
+        ref: 'v5.0.1'
+        commit: 'sha1-368f82528645a54fb793d4d04e342629a3f51346'
         owner_id: 44036562
         repo_id: 438112499
-    'actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea':
-        ref: 'v7.0.1'
-        commit: 'sha1-60a0d83039c74a4aee543508d2ffcb1c3799cdea'
+    'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd':
+        ref: 'v8.0.0'
+        commit: 'sha1-ed597411d8f924073f98dfc5c65a23a2325f34cd'
         owner_id: 44036562
         repo_id: 205262760
-    'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02':
-        ref: 'v4.6.2'
-        commit: 'sha1-ea165f8d65b6e75b540449e92b4886f43607fa02'
+    'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f':
+        ref: 'v7.0.0'
+        commit: 'sha1-bbbca2ddaa5d8feaa63e36b76fdaad77386f024f'
         owner_id: 44036562
         repo_id: 192625955
-    'actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b':
-        ref: 'v4.0.0'
-        commit: 'sha1-7b1f4a764d45c48632c6b24a0339c27f5614fb0b'
+    'actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9':
+        ref: 'v5.0.0'
+        commit: 'sha1-fc324d3547104276b827a68afc52ff2a11cc49c9'
         owner_id: 44036562
         repo_id: 496012378
         uses:
-            - 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02'
-    'codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac':
-        ref: 'v5.5.5'
-        commit: 'sha1-0fb7174895f61a3b6b78fc075e0cd60383518dac'
+            - 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f'
+    'codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5':
+        ref: 'v7.1.1'
+        commit: 'sha1-303a32d7a59b442fa8d48b6a1cc6825c09c847a5'
         owner_id: 8226205
         repo_id: 200299178
         uses:
-            - 'actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea'
-    'jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db':
-        ref: 'v3.6.3'
-        commit: 'sha1-5228313ee0372e111a38da051671ca30fc5a96db'
+            - 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd'
+    'jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b':
+        ref: 'v5.2.7'
+        commit: 'sha1-b44d12e7d0d8ee7461bb893e1b1993500433185b'
         owner_id: 216188
         repo_id: 738284564
     'stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c':

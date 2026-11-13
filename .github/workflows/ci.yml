@@ -12,10 +12,10 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       name: Check out repository
     - name: Set up mise
-      uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
+      uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5
       with:
         cache_key_prefix: mise-v0-stable
     - run: mise run lint
@@ -31,9 +31,9 @@ jobs:
       MISE_ENV: ${{ matrix.mise-env }}
 
     steps:
-    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
     - name: Set up mise
-      uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
+      uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5
       with:
         cache_key_prefix: mise-v0-${{ matrix.mise-env }}
 
@@ -54,4 +54,4 @@ jobs:
       run: mise run cover
 
     - name: Upload coverage
-      uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
+      uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
