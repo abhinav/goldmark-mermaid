@@ -39,7 +39,10 @@ jobs:
 
     - name: Set up mmdc
       run: |
+        # Node 26 can leave an incomplete headless-shell download in the cache.
+        rm -rf "$HOME/.cache/puppeteer/chrome-headless-shell"
         npm install
+        npx puppeteer browsers install chrome-headless-shell
         # Hack to work around
         # https://github.com/mermaid-js/mermaid-cli/issues/730
         patch node_modules/@mermaid-js/mermaid-cli/src/index.js <<EOF
